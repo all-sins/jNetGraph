@@ -5,12 +5,7 @@ CREATE TABLE IF NOT EXISTS `user` (
     `surname`       varchar(MAX),
     `email` 		varchar(1000),
     `password` 		varchar(100) -- TBD based on encryption
-    -- Friends list FK
-	-- SpeedTestCLI_FK
-	-- Expample1_FK
-	-- Expample2_FK
-	-- ...
-	-- ArthurImpl_FK
+
 
 )ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
