@@ -1,10 +1,12 @@
 package jnetgraph.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
 public class User {
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +23,9 @@ public class User {
 
     @Column(name = "password")
     private String password;
+
+    @OneToMany(mappedBy = "stcli_id")
+    private List<SpeedtestCLI> speedtestCLIList;
 
     public User() {
     }
