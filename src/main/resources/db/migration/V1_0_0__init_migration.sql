@@ -16,15 +16,15 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 CREATE TABLE IF NOT EXISTS `speedtest_cli` (
 
-    `stcli_id` 			INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `user_fk`           INT,
-    `exec_timestamp`     TIMESTAMP DEFAULT NOW(), -- Leaving this in case of manual testing. Remove if it becomes an issue.
-    `jitter_ms`          FLOAT(10),
-    `latency_ms`     	FLOAT(10),
+    `stcli_id` 			    INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `user_fk`               INT,
+    `exec_timestamp`        TIMESTAMP DEFAULT NOW(), -- Leaving this in case of manual testing. Remove if it becomes an issue.
+    `jitter_ms`             FLOAT(10),
+    `latency_ms`     	    FLOAT(10),
     `downloadspeed_mbps`	FLOAT(10),
-    `uploadspeed_mbps`   FLOAT(10),
-    `packetloss_percentage`   FLOAT(10),
-    FOREIGN KEY(user_fk) REFERENCES user(id)
+    `uploadspeed_mbps`      FLOAT(10),
+    `packetloss_percentage` FLOAT(10),
+    FOREIGN KEY(user_fk)    REFERENCES user(id)
 
 )ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 

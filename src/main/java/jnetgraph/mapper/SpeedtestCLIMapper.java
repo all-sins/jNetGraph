@@ -1,5 +1,4 @@
 package jnetgraph.mapper;
-
 import jnetgraph.model.SpeedtestCLI;
 import jnetgraph.probe.SpeedtestCLIImpl;
 import jnetgraph.probe.speedtestResultsDTO.SpeedDataDTO;

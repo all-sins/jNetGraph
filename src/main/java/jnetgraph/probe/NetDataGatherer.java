@@ -29,8 +29,8 @@ public abstract class NetDataGatherer {
 
     // Used to populate whole object with all data,
     // or specific parts.
-    //abstract boolean measureAll() throws IOException;
-    //abstract boolean measureLatency();
+    abstract boolean measureAll() throws IOException;
+    abstract boolean measureLatency();
     abstract boolean measureDownload();
     abstract boolean measureUpload();
 

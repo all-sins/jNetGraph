@@ -2,11 +2,9 @@ package jnetgraph.probe;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jnetgraph.probe.speedtestResultsDTO.SpeedDataDTO;
-import jnetgraph.service.SpeedtestCLIService;
 import org.apache.commons.lang3.builder.RecursiveToStringStyle;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -22,9 +20,6 @@ public class SpeedtestCLIImpl {
     private String speedtestPath;
 
     private final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(SpeedtestCLIImpl.class);
-
-
-
 
     public SpeedDataDTO getData() throws IOException {
         StringBuffer output = new StringBuffer();

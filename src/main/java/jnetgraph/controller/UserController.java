@@ -1,12 +1,10 @@
 package jnetgraph.controller;
-
 import jnetgraph.dto.UserDTO;
 import jnetgraph.mapper.UserMapper;
 import jnetgraph.model.User;
 import jnetgraph.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 
 @RestController
