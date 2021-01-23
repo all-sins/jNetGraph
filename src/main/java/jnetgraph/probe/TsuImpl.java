@@ -2,12 +2,11 @@ package jnetgraph.probe;
 
 public class TsuImpl extends NetDataGatherer {
 
-    @Override
+
     boolean measureAll() {
         return false;
     }
 
-    @Override
     boolean measureLatency() {
         return false;
     }

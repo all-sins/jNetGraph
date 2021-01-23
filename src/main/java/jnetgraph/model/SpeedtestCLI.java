@@ -1,5 +1,8 @@
 package jnetgraph.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -10,23 +13,30 @@ public class SpeedtestCLI {
     @Id
     @Column(name = "stcli_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long stcli_id;
+    private Long stcliId;
+
+    @CreationTimestamp
+    @Column(name = "exec_timestamp")
+    private Date execTimestamp;
+
+    @Column(name = "jitter_ms")
+    private float jitterMS;
+
+    @Column(name = "latency_ms")
+    private float latencyMS;
+
+    @Column(name = "downloadspeed_mbps")
+    private float downloadSpeedMbps;
+
+    @Column(name = "uploadspeed_mbps")
+    private float uploadSpeedMbps;
+
+    @Column(name = "packetloss_percentage")
+    private float packetLossPercentage;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "user_fk")
     private User user;
-
-    @Column(name = "exec_timestamp")
-    private Date exec_timestamp;
-
-    @Column(name = "response_time")
-    private Float response_time;
-
-    @Column(name = "download_speed")
-    private Float download_speed;
-
-    @Column(name = "upload_speed")
-    private Float upload_speed;
 
     // Empty default constructor left here in case
     // there will be another parameterized constructor.
@@ -34,50 +44,75 @@ public class SpeedtestCLI {
     public SpeedtestCLI() {
     }
 
-    public SpeedtestCLI(Date exec_timestamp, Float response_time, Float download_speed, Float upload_speed) {
-        this.exec_timestamp = exec_timestamp;
-        this.response_time = response_time;
-        this.download_speed = download_speed;
-        this.upload_speed = upload_speed;
+    public SpeedtestCLI(float jitterMS, float latencyMS, float downloadSpeedMbps, float uploadSpeedMbps, float packetLossPercentage) {
+        this.jitterMS = jitterMS;
+        this.latencyMS = latencyMS;
+        this.downloadSpeedMbps = downloadSpeedMbps;
+        this.uploadSpeedMbps = uploadSpeedMbps;
+        this.packetLossPercentage = packetLossPercentage;
     }
 
-    public Long getStcli_id() {
-        return stcli_id;
+    public Long getStcliId() {
+        return stcliId;
     }
 
-    public void setStcli_id(Long stcli_id) {
-        this.stcli_id = stcli_id;
+    public void setStcliId(Long stcliId) {
+        this.stcliId = stcliId;
     }
 
-    public Date getExec_timestamp() {
-        return exec_timestamp;
+    public Date getExecTimestamp() {
+        return execTimestamp;
     }
 
-    public void setExec_timestamp(Date exec_timestamp) {
-        this.exec_timestamp = exec_timestamp;
+    public void setExecTimestamp(Date execTimestamp) {
+        this.execTimestamp = execTimestamp;
     }
 
-    public Float getResponse_time() {
-        return response_time;
+    public float getJitterMS() {
+        return jitterMS;
     }
 
-    public void setResponse_time(Float response_time) {
-        this.response_time = response_time;
+    public void setJitterMS(float jitterMS) {
+        this.jitterMS = jitterMS;
     }
 
-    public Float getDownload_speed() {
-        return download_speed;
+    public float getLatencyMS() {
+        return latencyMS;
     }
 
-    public void setDownload_speed(Float download_speed) {
-        this.download_speed = download_speed;
+    public void setLatencyMS(float latencyMS) {
+        this.latencyMS = latencyMS;
     }
 
-    public Float getUpload_speed() {
-        return upload_speed;
+    public float getDownloadSpeedMbps() {
+        return downloadSpeedMbps;
     }
 
-    public void setUpload_speed(Float upload_speed) {
-        this.upload_speed = upload_speed;
+    public void setDownloadSpeedMbps(float downloadSpeedMbps) {
+        this.downloadSpeedMbps = downloadSpeedMbps;
+    }
+
+    public float getUploadSpeedMbps() {
+        return uploadSpeedMbps;
+    }
+
+    public void setUploadSpeedMbps(float uploadSpeedMbps) {
+        this.uploadSpeedMbps = uploadSpeedMbps;
+    }
+
+    public float getPacketLossPercentage() {
+        return packetLossPercentage;
+    }
+
+    public void setPacketLossPercentage(float packetLossPercentage) {
+        this.packetLossPercentage = packetLossPercentage;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

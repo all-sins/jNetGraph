@@ -24,15 +24,13 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @OneToMany(mappedBy = "stcli_id")
+    @OneToMany(mappedBy = "stcliId")
     private List<SpeedtestCLI> speedtestCLIList;
 
     public User() {
     }
 
-    public Long getId() {
-        return id;
-    }
+
 
     public User(String name, String surname, String email) {
         this.name = name;
@@ -44,6 +42,9 @@ public class User {
         this.id = id;
     }
 
+    public Long getId() {
+        return id;
+    }
     public String getName() {
         return name;
     }
