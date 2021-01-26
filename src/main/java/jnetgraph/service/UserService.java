@@ -29,10 +29,10 @@ public class UserService {
         user.setUserStatus(UserStatus.ACTIVE);
         return userRepository.save(user);
     }
-
-    public void deleteUser(User user) {
-        userRepository.delete(user);
-    }
+//
+//    public void deleteUser(User user) {
+//        userRepository.delete(user);
+//    }
 
     public void softDeleteUser(User user) {
         user.setUserStatus(UserStatus.DELETED);

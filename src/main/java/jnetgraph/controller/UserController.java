@@ -28,11 +28,11 @@ private final UserMapper userMapper;
     }
 
 
-    @DeleteMapping("/user({id})")
-    public void hardDeleteUser(@PathVariable("id") Long id){
-        User userToDelete = userService.findById(id);
-        userService.deleteUser(userToDelete);
-    }
+//    @DeleteMapping("/user({id})")
+//    public void hardDeleteUser(@PathVariable("id") Long id){
+//        User userToDelete = userService.findById(id);
+//        userService.deleteUser(userToDelete);
+//    }
 
     @DeleteMapping("/user({id})")
     public void softDeleteUser(@PathVariable("id") Long id){

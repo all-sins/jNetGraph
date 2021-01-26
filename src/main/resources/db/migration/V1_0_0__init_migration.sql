@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS `user` (
     `id`        INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `name`      varchar(MAX),
     `surname`   varchar(MAX),
-    `userStatus` varchar (20),
+    `userStatus` varchar(20),
     `email`     varchar(100),
     `password`  varchar(100)
 

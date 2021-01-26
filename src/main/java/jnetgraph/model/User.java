@@ -1,5 +1,6 @@
 package jnetgraph.model;
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.util.List;
 
 @Entity
@@ -24,8 +25,8 @@ public class User {
     private String password;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "userStatus")
-    private UserStatus userStatus;
+    @Column(name = "userstatus")
+    private UserStatus userstatus;
 
     @OneToMany(mappedBy = "stcliId")
     private List<SpeedtestCLI> speedtestCLIList;
@@ -86,11 +87,11 @@ public class User {
     }
 
     public UserStatus getUserStatus() {
-        return userStatus;
+        return userstatus;
     }
 
     public void setUserStatus(UserStatus userStatus) {
-        this.userStatus = userStatus;
+        this.userstatus = userStatus;
     }
 
     public void setSpeedtestCLIList(List<SpeedtestCLI> speedtestCLIList) {
@@ -104,6 +105,8 @@ public class User {
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", userstatus=" + userstatus +
                 '}';
     }
 }
