@@ -21,6 +21,10 @@ public class SpeedtestCLIImpl {
 
     private final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(SpeedtestCLIImpl.class);
 
+    public void setSpeedtestPath(String speedtestPath) {
+        this.speedtestPath = speedtestPath;
+    }
+
     public SpeedDataDTO getData() throws IOException {
         StringBuffer output = new StringBuffer();
         Process p;

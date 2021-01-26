@@ -33,4 +33,12 @@ private final UserMapper userMapper;
         User userToDelete = userService.findById(id);
         userService.deleteUser(userToDelete);
     }
+
+    @DeleteMapping("/user({id})")
+    public void softDeleteUser(@PathVariable("id") Long id){
+        User userToDelete = userService.findById(id);
+        userService.softDeleteUser(userToDelete);
+    }
+
+
 }

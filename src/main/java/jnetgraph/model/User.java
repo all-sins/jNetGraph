@@ -23,8 +23,13 @@ public class User {
     @Column(name = "password")
     private String password;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "userStatus")
+    private UserStatus userStatus;
+
     @OneToMany(mappedBy = "stcliId")
     private List<SpeedtestCLI> speedtestCLIList;
+
 
     public User() {
     }
@@ -74,5 +79,31 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<SpeedtestCLI> getSpeedtestCLIList() {
+        return speedtestCLIList;
+    }
+
+    public UserStatus getUserStatus() {
+        return userStatus;
+    }
+
+    public void setUserStatus(UserStatus userStatus) {
+        this.userStatus = userStatus;
+    }
+
+    public void setSpeedtestCLIList(List<SpeedtestCLI> speedtestCLIList) {
+        this.speedtestCLIList = speedtestCLIList;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }
