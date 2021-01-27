@@ -1,5 +1,6 @@
 package jnetgraph.mapper;
 
+import jnetgraph.dto.SpeedtestCLIDTO;
 import jnetgraph.model.SpeedtestCLI;
 import jnetgraph.probe.SpeedtestCLIImpl;
 import jnetgraph.probe.speedtestResultsDTO.DownloadDTO;
@@ -7,6 +8,8 @@ import jnetgraph.probe.speedtestResultsDTO.PingDTO;
 import jnetgraph.probe.speedtestResultsDTO.SpeedDataDTO;
 import jnetgraph.probe.speedtestResultsDTO.UploadDTO;
 import org.junit.Test;
+
+import java.util.Date;
 
 import static org.junit.Assert.*;
 
@@ -44,6 +47,27 @@ public class SpeedtestCLIMapperTest {
                     speedtestCLI.getDownloadSpeedMbps(),0);
         assertEquals(speedtestCLIImpl.uploadSpeed(speedDataDTO.getUpload().getBytes(), speedDataDTO.getUpload().getElapsed()),
                     speedtestCLI.getUploadSpeedMbps(), 0);
+
+    }
+
+    @Test
+    public void toDTO() {
+        SpeedtestCLI speedtestCLI = new SpeedtestCLI();
+        speedtestCLI.setDownloadSpeedMbps(30.50f);
+        speedtestCLI.setUploadSpeedMbps(40.20f);
+        speedtestCLI.setPacketLossPercentage(5);
+        speedtestCLI.setLatencyMS(1);
+        speedtestCLI.setJitterMS(2.8956f);
+
+
+
+        SpeedtestCLIDTO speedtestCLIDTO = speedtestCLIMapper.toDTO(speedtestCLI);
+
+        assertEquals(30.50f, speedtestCLIDTO.getDownloadSpeedMbps(), 0);
+        assertEquals(40.20f, speedtestCLIDTO.getUploadSpeedMbps(),0);
+        assertEquals(5, speedtestCLIDTO.getPacketLossPercentage(),0);
+        assertEquals(1, speedtestCLIDTO.getLatencyMS(),0);
+        assertEquals(2.8956f, speedtestCLIDTO.getJitterMS(),0);
 
     }
 }

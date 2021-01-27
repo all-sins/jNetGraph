@@ -1,48 +1,42 @@
-package jnetgraph.model;
+package jnetgraph.dto;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jnetgraph.model.User;
 import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
 import java.util.Date;
 
-@Entity
-@Table(name = "speedtest_cli")
-public class SpeedtestCLI {
+public class SpeedtestCLIDTO {
 
-    @Id
-    @Column(name = "stcli_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty("stcliId")
     private Long stcliId;
 
-    @CreationTimestamp
-    @Column(name = "exec_timestamp")
+    @JsonProperty("execTimestamp")
     private Date execTimestamp;
 
-    @Column(name = "jitter_ms")
+    @JsonProperty("jitterMS")
     private float jitterMS;
 
-    @Column(name = "latency_ms")
+    @JsonProperty("latencyMS")
     private float latencyMS;
 
-    @Column(name = "downloadspeed_mbps")
+    @JsonProperty("downloadSpeedMbps")
     private float downloadSpeedMbps;
 
-    @Column(name = "uploadspeed_mbps")
+    @JsonProperty("uploadSpeedMbps")
     private float uploadSpeedMbps;
 
-    @Column(name = "packetloss_percentage")
+    @JsonProperty("packetLossPercentage")
     private float packetLossPercentage;
 
-    @ManyToOne
-    @JoinColumn(name = "user_fk")
-    private User user;
 
-    // Empty default constructor left here in case
-    // there will be another parameterized constructor.
-    // Because then you need a default one.
-    public SpeedtestCLI() {
+    public SpeedtestCLIDTO() {
     }
 
-    public SpeedtestCLI(float jitterMS, float latencyMS, float downloadSpeedMbps, float uploadSpeedMbps, float packetLossPercentage) {
+    public SpeedtestCLIDTO(Long stcliId, Date execTimestamp, float jitterMS, float latencyMS, float downloadSpeedMbps, float uploadSpeedMbps, float packetLossPercentage) {
+        this.stcliId = stcliId;
+        this.execTimestamp = execTimestamp;
         this.jitterMS = jitterMS;
         this.latencyMS = latencyMS;
         this.downloadSpeedMbps = downloadSpeedMbps;
@@ -106,11 +100,5 @@ public class SpeedtestCLI {
         this.packetLossPercentage = packetLossPercentage;
     }
 
-    public User getUser() {
-        return user;
-    }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
 }
