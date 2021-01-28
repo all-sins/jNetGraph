@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `speedtest_cli` (
 
 )ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
-CREATE TABLE IF NOT EXISTS `tsu_icmp` (
+CREATE TABLE IF NOT EXISTS `tsu_impl` (
 
     `id` 				int NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `exec_timestamp`    TIMESTAMP DEFAULT NOW(), -- Leaving this in case of manual testing. Remove if it becomes an issue.
