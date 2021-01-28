@@ -1,12 +1,10 @@
 package jnetgraph.controller;
-
 import jnetgraph.dto.UserDTO;
 import jnetgraph.mapper.UserMapper;
 import jnetgraph.model.User;
 import jnetgraph.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 
 @RestController
@@ -30,9 +28,17 @@ private final UserMapper userMapper;
     }
 
 
+//    @DeleteMapping("/user({id})")
+//    public void hardDeleteUser(@PathVariable("id") Long id){
+//        User userToDelete = userService.findById(id);
+//        userService.deleteUser(userToDelete);
+//    }
+
     @DeleteMapping("/user({id})")
-    public void hardDeleteUser(@PathVariable("id") Long id){
+    public void softDeleteUser(@PathVariable("id") Long id){
         User userToDelete = userService.findById(id);
-        userService.deleteUser(userToDelete);
+        userService.softDeleteUser(userToDelete);
     }
+
+
 }

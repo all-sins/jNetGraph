@@ -1,10 +1,12 @@
 package jnetgraph.model;
-
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
 public class User {
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,12 +24,18 @@ public class User {
     @Column(name = "password")
     private String password;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "userstatus")
+    private UserStatus userstatus;
+
+    @OneToMany(mappedBy = "stcliId")
+    private List<SpeedtestCLI> speedtestCLIList;
+
+
     public User() {
     }
 
-    public Long getId() {
-        return id;
-    }
+
 
     public User(String name, String surname, String email) {
         this.name = name;
@@ -39,6 +47,9 @@ public class User {
         this.id = id;
     }
 
+    public Long getId() {
+        return id;
+    }
     public String getName() {
         return name;
     }
@@ -69,5 +80,33 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<SpeedtestCLI> getSpeedtestCLIList() {
+        return speedtestCLIList;
+    }
+
+    public UserStatus getUserStatus() {
+        return userstatus;
+    }
+
+    public void setUserStatus(UserStatus userStatus) {
+        this.userstatus = userStatus;
+    }
+
+    public void setSpeedtestCLIList(List<SpeedtestCLI> speedtestCLIList) {
+        this.speedtestCLIList = speedtestCLIList;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", userstatus=" + userstatus +
+                '}';
     }
 }
