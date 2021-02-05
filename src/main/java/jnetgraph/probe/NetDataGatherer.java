@@ -1,11 +1,5 @@
 package jnetgraph.probe;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
-
 public abstract class NetDataGatherer {
 
     // Variables for latency.
@@ -22,13 +16,6 @@ public abstract class NetDataGatherer {
     protected float minUp = 0;
     protected float maxUp = 0;
     protected float avgUp = 0;
-    
-    // Used to populate whole object with all data,
-    // or specific parts.
-    abstract boolean measureAll() throws IOException;
-    abstract boolean measureLatency();
-    abstract boolean measureDownload();
-    abstract boolean measureUpload();
 
     // Used to populate whole object with all data, or specific parts.
     abstract void measureAll();
