@@ -37,14 +37,14 @@ public class SpeedtestCLIController {
 
     @PostMapping("/speedtestcli/{userId}")
     public void addNewEntry(@PathVariable("userId") Long userId) throws IOException, InterruptedException {
-        speedtestCLIService.setCheck("get data");
+        speedtestCLIService.setCheck(true);
         speedtestCLIService.createNewEntry(userService.findById(userId));
 
     }
 
     @PostMapping("/speedtestcli/{userId}/stop")
     public void stop(@PathVariable("userId") Long userId) throws IOException {
-        speedtestCLIService.setCheck("");
+        speedtestCLIService.setCheck(false);
 
     }
 

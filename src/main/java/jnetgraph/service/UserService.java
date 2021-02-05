@@ -34,8 +34,11 @@ public class UserService {
 //        userRepository.delete(user);
 //    }
 
-    public void softDeleteUser(User user) {
+    public void softDeleteUser(Long id) {
+        User user = userRepository.findById(id).orElseThrow(()->new RuntimeException("No user with such ID"));
         user.setUserStatus(UserStatus.DELETED);
+        userRepository.save(user);
+
     }
 
 }

@@ -26,7 +26,7 @@ public class SpeedtestCLIService {
     private final SpeedtestCLIMapper speedtestCLIMapper;
     private final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(SpeedtestCLIService.class);
     private final StringToDate stringToDate;
-    private String check;
+    private boolean check = false;
 
     @Autowired
     public SpeedtestCLIService(SpeedtestCLIRepository speedtestCLIRepository, SpeedtestCLIImpl speedtestCLIImpl, SpeedtestCLIMapper speedtestCLIMapper, StringToDate stringToDate) {
@@ -36,46 +36,66 @@ public class SpeedtestCLIService {
         this.stringToDate = stringToDate;
     }
 
-
-    public void setCheck(String check) {
+    public void setCheck(boolean check) {
         this.check = check;
     }
 
-    //TODO: Need to repeat this method until user exits it
-//    public SpeedtestCLI createNewEntry(User user) throws IOException {
+
+    //    public void createNewEntry(User user) throws IOException, InterruptedException {
+//        while (check.equals("get data")) {
+//            LOGGER.info("Running Ookla speedtest and collecting results");
+//            SpeedDataDTO speedDataDTO = speedtestCLIImpl.getData();
+//            SpeedtestCLI speedtestCLI = speedtestCLIMapper.dataToObject(speedDataDTO, speedtestCLIImpl);
+//            speedtestCLI.setUser(user);
+//            LOGGER.debug("Saving entry to database: " + ReflectionToStringBuilder.reflectionToString(speedtestCLI, RecursiveToStringStyle.SIMPLE_STYLE));
+//            speedtestCLIRepository.save(speedtestCLI);
+//            LOGGER.info("Waiting 1 hour to get next measurement");
+//            Thread.sleep(1000);
 //
-//    LOGGER.info("Running Ookla speedtest and collecting results");
-//    SpeedDataDTO speedDataDTO = speedtestCLIImpl.getData();
-//    SpeedtestCLI speedtestCLI = speedtestCLIMapper.dataToObject(speedDataDTO, speedtestCLIImpl);
-//    speedtestCLI.setUser(user);
-//    LOGGER.debug("Saving entry to database: " + ReflectionToStringBuilder.reflectionToString(speedtestCLI, RecursiveToStringStyle.SIMPLE_STYLE));
-//    return speedtestCLIRepository.save(speedtestCLI);
-//
-//
+//        }
 //    }
 
+
     public void createNewEntry(User user) throws IOException, InterruptedException {
-        while (check.equals("get data")) {
-            LOGGER.info("Running Ookla speedtest and collecting results");
-            SpeedDataDTO speedDataDTO = speedtestCLIImpl.getData();
-            SpeedtestCLI speedtestCLI = speedtestCLIMapper.dataToObject(speedDataDTO, speedtestCLIImpl);
-            speedtestCLI.setUser(user);
-            LOGGER.debug("Saving entry to database: " + ReflectionToStringBuilder.reflectionToString(speedtestCLI, RecursiveToStringStyle.SIMPLE_STYLE));
-            speedtestCLIRepository.save(speedtestCLI);
-            LOGGER.info("Waiting 1 hour to get next measurement");
-            Thread.sleep(10);
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
 
-        }
+                while (check) {
+                    LOGGER.info("Running Ookla speedtest and collecting results");
+                    SpeedDataDTO speedDataDTO = null;
+                    try {
+                        speedDataDTO = speedtestCLIImpl.getData();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    SpeedtestCLI speedtestCLI = speedtestCLIMapper.dataToObject(speedDataDTO, speedtestCLIImpl);
+                    speedtestCLI.setUser(user);
+                    LOGGER.debug("Saving entry to database: " + ReflectionToStringBuilder.reflectionToString(speedtestCLI, RecursiveToStringStyle.SIMPLE_STYLE));
+                    speedtestCLIRepository.save(speedtestCLI);
+                    LOGGER.info("Waiting 1 hour to get next measurement");
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        thread.run();
     }
 
-  public List<SpeedtestCLI> getDataForPeriod(String startDate, String endDate) throws ParseException {
 
-      return speedtestCLIRepository.getDataForPeriod(stringToDate.convert(startDate), stringToDate.convert(endDate));
+    public List<SpeedtestCLI> getDataForPeriod(String startDate, String endDate) throws ParseException {
 
-  }
-
+        return speedtestCLIRepository.getDataForPeriod(stringToDate.convert(startDate), stringToDate.convert(endDate));
 
     }
+
+
+
+
+}
 
 
 
