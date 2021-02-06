@@ -8,6 +8,7 @@ import jnetgraph.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
@@ -29,19 +30,14 @@ public class SpeedtestCLIController {
         this.speedtestCLIMapper = speedtestCLIMapper;
     }
 
-//    @PostMapping("/speedtestcli/{userId}")
-//    public SpeedtestCLI addNewEntry(@PathVariable("userId") Long userId) throws IOException {
-//            return speedtestCLIService.createNewEntry(userService.findById(userId));
-//
-//    }
-
+    @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
     @PostMapping("/speedtestcli/{userId}")
     public void addNewEntry(@PathVariable("userId") Long userId) throws IOException, InterruptedException {
         speedtestCLIService.setCheck(true);
         speedtestCLIService.createNewEntry(userService.findById(userId));
 
     }
-
+    @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
     @PostMapping("/speedtestcli/{userId}/stop")
     public void stop(@PathVariable("userId") Long userId) throws IOException {
         speedtestCLIService.setCheck(false);
@@ -50,6 +46,7 @@ public class SpeedtestCLIController {
 
 
     @GetMapping("/speedtestcli{startDate}till{endDate}")
+    @RolesAllowed({"ROLE_ADMIN"})
     public List<SpeedtestCLIDTO> getDateForPeriod(@PathVariable("startDate") String startDate,
                                                   @PathVariable("endDate") String endDate) throws ParseException {
 
