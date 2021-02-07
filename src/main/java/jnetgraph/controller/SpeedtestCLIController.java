@@ -2,7 +2,6 @@ package jnetgraph.controller;
 
 import jnetgraph.dto.SpeedtestCLIDTO;
 import jnetgraph.mapper.SpeedtestCLIMapper;
-import jnetgraph.model.SpeedtestCLI;
 import jnetgraph.service.SpeedtestCLIService;
 import jnetgraph.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +36,8 @@ public class SpeedtestCLIController {
         speedtestCLIService.createNewEntry(userService.findById(userId));
 
     }
+
+    //Controller method to stop getting data. If not called speedtestCLIService.createNewEntry() will keep running.
     @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
     @PostMapping("/speedtestcli/{userId}/stop")
     public void stop(@PathVariable("userId") Long userId) throws IOException {
@@ -44,13 +45,14 @@ public class SpeedtestCLIController {
 
     }
 
-
-    @GetMapping("/speedtestcli{startDate}till{endDate}")
-    @RolesAllowed({"ROLE_ADMIN"})
+    //Getting all existing entries for particular userId for particular time period.
+    @GetMapping("/speedtestcli({userId}){startDate}till{endDate}")
+    @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
     public List<SpeedtestCLIDTO> getDateForPeriod(@PathVariable("startDate") String startDate,
-                                                  @PathVariable("endDate") String endDate) throws ParseException {
+                                                  @PathVariable("endDate") String endDate,
+                                                  @PathVariable("userId") String userId) throws ParseException {
 
-        return speedtestCLIService.getDataForPeriod(startDate, endDate).stream().map(speedtestCLIMapper::toDTO).collect(Collectors.toList());
+        return speedtestCLIService.getDataForPeriod(startDate, endDate, userId).stream().map(speedtestCLIMapper::toDTO).collect(Collectors.toList());
 
 
     }

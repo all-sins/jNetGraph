@@ -1,5 +1,6 @@
 package jnetgraph.config.security;
 
+import jnetgraph.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,23 +15,26 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
+    UserRepository userRepository;
+
+    @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
-                .withUser("arturs")
+                .withUser("arturs@mail.com")
                 .password(passwordEncoder()
-                        .encode("arturs1"))
+                        .encode(userRepository.findByEmail("arturs@mail.com").get(0).getPassword()))
                 .authorities("ROLE_USER");
 
         auth.inMemoryAuthentication()
-                .withUser("mara")
+                .withUser("mara@mail.com")
                 .password(passwordEncoder()
-                        .encode("mara1"))
+                        .encode(userRepository.findByEmail("mara@mail.com").get(0).getPassword()))
                 .authorities("ROLE_USER");
 
         auth.inMemoryAuthentication()
                 .withUser("admin")
                 .password(passwordEncoder()
-                        .encode("admin1"))
+                        .encode(userRepository.findByEmail("admin@mail.com").get(0).getPassword()))
                 .authorities("ROLE_ADMIN");
     }
 
@@ -47,9 +51,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.headers().frameOptions().disable();
 
         http.authorizeRequests()
-                //TODO:Making Swagger and H2 accessible without authentification. remove for PROD
+                //TODO:Making Swagger and H2 accessible without authentification. Remove for PROD
                 .antMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**", "/h2-console/**")
                 .permitAll()
+
                 .anyRequest()
                 .authenticated().and()
                 .httpBasic();

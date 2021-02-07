@@ -29,16 +29,19 @@ public class UserService {
         user.setUserStatus(UserStatus.ACTIVE);
         return userRepository.save(user);
     }
-//
-//    public void deleteUser(User user) {
-//        userRepository.delete(user);
-//    }
+
 
     public void softDeleteUser(Long id) {
         User user = userRepository.findById(id).orElseThrow(()->new RuntimeException("No user with such ID"));
         user.setUserStatus(UserStatus.DELETED);
         userRepository.save(user);
 
+    }
+
+    public void changePassword(Long id, String newPassword){
+        User user = userRepository.findById(id).orElseThrow(()->new RuntimeException("No user with such ID"));
+        user.setPassword(newPassword);
+        userRepository.save(user);
     }
 
 }

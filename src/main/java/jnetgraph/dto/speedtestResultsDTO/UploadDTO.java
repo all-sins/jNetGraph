@@ -1,4 +1,4 @@
-package jnetgraph.probe.speedtestResultsDTO;
+package jnetgraph.dto.speedtestResultsDTO;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

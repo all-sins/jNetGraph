@@ -5,7 +5,7 @@ import jnetgraph.mapper.StringToDate;
 import jnetgraph.model.SpeedtestCLI;
 import jnetgraph.model.User;
 import jnetgraph.probe.SpeedtestCLIImpl;
-import jnetgraph.probe.speedtestResultsDTO.SpeedDataDTO;
+import jnetgraph.dto.speedtestResultsDTO.SpeedDataDTO;
 import jnetgraph.repository.SpeedtestCLIRepository;
 import org.apache.commons.lang3.builder.RecursiveToStringStyle;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.Date;
 import java.util.List;
 
 
@@ -86,9 +85,9 @@ public class SpeedtestCLIService {
     }
 
 
-    public List<SpeedtestCLI> getDataForPeriod(String startDate, String endDate) throws ParseException {
+    public List<SpeedtestCLI> getDataForPeriod(String startDate, String endDate, String userId) throws ParseException {
 
-        return speedtestCLIRepository.getDataForPeriod(stringToDate.convert(startDate), stringToDate.convert(endDate));
+        return speedtestCLIRepository.getDataForPeriod(stringToDate.convert(startDate), stringToDate.convert(endDate), Long.parseLong(userId));
 
     }
 

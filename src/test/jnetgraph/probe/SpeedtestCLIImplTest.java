@@ -1,6 +1,6 @@
 package jnetgraph.probe;
 
-import jnetgraph.probe.speedtestResultsDTO.SpeedDataDTO;
+import jnetgraph.dto.speedtestResultsDTO.SpeedDataDTO;
 import org.junit.Test;
 
 import java.io.IOException;

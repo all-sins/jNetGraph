@@ -1,7 +1,7 @@
 package jnetgraph.probe;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jnetgraph.probe.speedtestResultsDTO.SpeedDataDTO;
+import jnetgraph.dto.speedtestResultsDTO.SpeedDataDTO;
 import org.apache.commons.lang3.builder.RecursiveToStringStyle;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.slf4j.LoggerFactory;
@@ -25,6 +25,8 @@ public class SpeedtestCLIImpl {
         this.speedtestPath = speedtestPath;
     }
 
+    //The actual implementation of SpeedtestCLI. When method called, it runs the .exe file, gets data as json
+    // and returns SpeedDataDTO object that can further be used to create final object - SpeedtestCLI
     public SpeedDataDTO getData() throws IOException {
         StringBuffer output = new StringBuffer();
         Process p;
