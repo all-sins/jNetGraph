@@ -32,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorities("ROLE_USER");
 
         auth.inMemoryAuthentication()
-                .withUser("admin")
+                .withUser("admin@mail.com")
                 .password(passwordEncoder()
                         .encode(userRepository.findByEmail("admin@mail.com").get(0).getPassword()))
                 .authorities("ROLE_ADMIN");

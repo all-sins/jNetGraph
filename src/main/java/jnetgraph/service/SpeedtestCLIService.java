@@ -1,5 +1,6 @@
 package jnetgraph.service;
 
+import jnetgraph.exception.SpeedtestCLIProcessingException;
 import jnetgraph.mapper.SpeedtestCLIMapper;
 import jnetgraph.mapper.StringToDate;
 import jnetgraph.model.SpeedtestCLI;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -55,7 +57,7 @@ public class SpeedtestCLIService {
 //    }
 
 
-    public void createNewEntry(User user) throws IOException, InterruptedException {
+    public void createNewEntry(User user) {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -63,20 +65,16 @@ public class SpeedtestCLIService {
                 while (check) {
                     LOGGER.info("Running Ookla speedtest and collecting results");
                     SpeedDataDTO speedDataDTO = null;
-                    try {
-                        speedDataDTO = speedtestCLIImpl.getData();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    speedDataDTO = speedtestCLIImpl.getData();
                     SpeedtestCLI speedtestCLI = speedtestCLIMapper.dataToObject(speedDataDTO, speedtestCLIImpl);
                     speedtestCLI.setUser(user);
                     LOGGER.debug("Saving entry to database: " + ReflectionToStringBuilder.reflectionToString(speedtestCLI, RecursiveToStringStyle.SIMPLE_STYLE));
                     speedtestCLIRepository.save(speedtestCLI);
-                    LOGGER.info("Waiting 1 hour to get next measurement");
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
+                        throw new SpeedtestCLIProcessingException("302", "Thread processing error while creating new SpeedtestCLI entries!");
                     }
                 }
             }
@@ -86,12 +84,12 @@ public class SpeedtestCLIService {
 
 
     public List<SpeedtestCLI> getDataForPeriod(String startDate, String endDate, String userId) throws ParseException {
-
-        return speedtestCLIRepository.getDataForPeriod(stringToDate.convert(startDate), stringToDate.convert(endDate), Long.parseLong(userId));
+        Calendar c = Calendar.getInstance();
+        c.setTime(stringToDate.convert(endDate));
+        c.add(Calendar.DATE,1);
+        return speedtestCLIRepository.getDataForPeriod(stringToDate.convert(startDate), c.getTime(), Long.parseLong(userId));
 
     }
-
-
 
 
 }

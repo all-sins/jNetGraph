@@ -31,7 +31,7 @@ public class SpeedtestCLIController {
 
     @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
     @PostMapping("/speedtestcli/{userId}")
-    public void addNewEntry(@PathVariable("userId") Long userId) throws IOException, InterruptedException {
+    public void addNewEntry(@PathVariable("userId") Long userId)  {
         speedtestCLIService.setCheck(true);
         speedtestCLIService.createNewEntry(userService.findById(userId));
 
@@ -40,7 +40,7 @@ public class SpeedtestCLIController {
     //Controller method to stop getting data. If not called speedtestCLIService.createNewEntry() will keep running.
     @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
     @PostMapping("/speedtestcli/{userId}/stop")
-    public void stop(@PathVariable("userId") Long userId) throws IOException {
+    public void stop(@PathVariable("userId") Long userId) {
         speedtestCLIService.setCheck(false);
 
     }
