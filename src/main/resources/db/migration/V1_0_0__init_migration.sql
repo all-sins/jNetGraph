@@ -50,3 +50,7 @@ VALUES
 INSERT INTO USER( `name` ,`surname`, `email`, `password`)
 VALUES
 ('Admins', 'Uzvards', 'admin@mail.com', 'admin1');
+
+INSERT INTO SPEEDTESTCLI (userfk, exectimestamp, jitterms, latencyms, downloadspeedmbps, uploadspeedmbps, packetlosspercentage)
+VALUES
+(1, '2021-02-10 20:17:18.108', 	0.379, 	2.124, 35.0, 38.545456, 0.0 )

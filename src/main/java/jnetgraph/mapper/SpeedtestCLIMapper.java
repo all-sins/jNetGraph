@@ -5,6 +5,8 @@ import jnetgraph.probe.SpeedtestCLIImpl;
 import jnetgraph.dto.speedtestResultsDTO.SpeedDataDTO;
 import org.springframework.stereotype.Component;
 
+import java.text.SimpleDateFormat;
+
 @Component
 public class SpeedtestCLIMapper {
 
@@ -21,6 +23,7 @@ public class SpeedtestCLIMapper {
     }
 
     public SpeedtestCLIDTO toDTO(SpeedtestCLI speedtestCLI) {
+//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         return new SpeedtestCLIDTO(
               speedtestCLI.getStcliId(),
                 speedtestCLI.getExecTimestamp(),
