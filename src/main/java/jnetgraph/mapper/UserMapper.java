@@ -1,5 +1,4 @@
 package jnetgraph.mapper;
-
 import jnetgraph.dto.UserDTO;
 import jnetgraph.model.User;
 import org.springframework.stereotype.Component;

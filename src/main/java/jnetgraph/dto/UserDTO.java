@@ -3,7 +3,6 @@ package jnetgraph.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.validation.constraints.Email;
 
-
 public class UserDTO {
 
     @JsonProperty("id")
@@ -60,4 +59,6 @@ public class UserDTO {
     public void setEmail(String email) {
         this.email = email;
     }
+
+
 }

@@ -1,5 +1,4 @@
 package jnetgraph.controller;
-
 import jnetgraph.dto.UserDTO;
 import jnetgraph.mapper.UserMapper;
 import jnetgraph.model.User;
@@ -7,6 +6,7 @@ import jnetgraph.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 
 @RestController
@@ -21,7 +21,7 @@ private final UserMapper userMapper;
         this.userService = userService;
         this.userMapper = userMapper;
     }
-
+    @RolesAllowed("ROLE_ADMIN")
     @PostMapping("/user")
     public UserDTO addNewUser(@Valid @RequestBody UserDTO userDTO) {
         User userToSave = userMapper.fromDTO(userDTO);
@@ -30,9 +30,14 @@ private final UserMapper userMapper;
     }
 
 
+    @RolesAllowed("ROLE_ADMIN")
     @DeleteMapping("/user({id})")
-    public void hardDeleteUser(@PathVariable("id") Long id){
-        User userToDelete = userService.findById(id);
-        userService.deleteUser(userToDelete);
+    public void softDeleteUser(@PathVariable("id") Long id){
+        userService.softDeleteUser(id);
     }
+
+
+
+
+
 }
