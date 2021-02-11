@@ -39,6 +39,19 @@ public class TsuImpl {
         this.upload_speed = upload_speed;
     }
 
+    // Constructor used for DTO mapper.
+    // DTO -> Entity
+    public TsuImpl(Date exec_timestamp, Float response_time, Float download_speed) {
+        this.exec_timestamp = exec_timestamp;
+        this.response_time = response_time;
+        this.download_speed = download_speed;
+    }
+
+    public TsuImpl(Float response_time, Float download_speed) {
+        this.response_time = response_time;
+        this.download_speed = download_speed;
+    }
+
     public Long getTsuimpl_id() {
         return tsuimpl_id;
     }

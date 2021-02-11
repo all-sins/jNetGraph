@@ -18,13 +18,49 @@ public abstract class NetDataGatherer {
     protected float avgUp = 0;
 
     // Used to populate whole object with all data, or specific parts.
-    abstract void measureAll();
-    public abstract void measureLatency(int precision, int threshold);
-    abstract void measureDownload();
-    abstract void measureUpload();
+    abstract public void measureAll();
+    abstract public void measureLatency(int precision, int threshold);
+    abstract public void measureDownload();
 
     // TODO:
     // getJitter?
     // getPacketLoss?
     // getOverAllStatus?
+
+
+    public float getMinMs() {
+        return minMs;
+    }
+
+    public float getMaxMs() {
+        return maxMs;
+    }
+
+    public float getAvgMs() {
+        return avgMs;
+    }
+
+    public float getMinDl() {
+        return minDl;
+    }
+
+    public float getMaxDl() {
+        return maxDl;
+    }
+
+    public float getAvgDl() {
+        return avgDl;
+    }
+
+    public float getMinUp() {
+        return minUp;
+    }
+
+    public float getMaxUp() {
+        return maxUp;
+    }
+
+    public float getAvgUp() {
+        return avgUp;
+    }
 }

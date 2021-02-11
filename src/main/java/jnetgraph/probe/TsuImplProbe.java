@@ -64,15 +64,13 @@ public class TsuImplProbe extends NetDataGatherer {
     @Override
     public void measureDownload() {
 
-        // TODO:
-        // Switch this to a cleaner implementation that measures the
-        // time it takes to load the data from the URL into MEMORY
-        // not write it to a file. Avoid ambiguous disk I/O bottleneck.
-
-        // Measure time taken to download a 1MB file 5 times.
-        long[] dlTimes = new long[5];
-        String testDomain = "http://ipv4.ikoula.testdebit.info/1M.iso";
-        for (int i = 0; i < 5; i++) {
+        // Measure time taken to download a 50MB iso file x times.
+        int x = 1;
+        float fileSizeInBytes = 50f * 1024f;
+        long[] dlTimes = new long[x];
+        String testDomain = "http://ipv4.scaleway.testdebit.info/50M.iso";
+        // Left the loop in for ease of change later if need be.
+        for (int i = 0; i < x; i++) {
             // This one-liner is pretty nuts. It does all of the following:
             // 1. Create a URL object from a string in the parameter of the constructor.
             // 2. Call the openStream() method which returns a InputStream from a URL object.
@@ -97,22 +95,13 @@ public class TsuImplProbe extends NetDataGatherer {
         // Convert array of long millisecond download times
         // to an array of float KB/s.
         for (int i = 0; i < dlTimes.length; i++) {
-            speeds[i] = 1024f / ( (float) dlTimes[i] / 1000f );
+            speeds[i] = fileSizeInBytes / ( (float) dlTimes[i] / 1000f );
         }
 
         // Calculate average, minimum, maximum and format
         // results to a decimal precision of two digits.
         float[] res = calcAvgMinMax(speeds);
         avgDl = res[0];
-        minDl = res[1];
-        maxDl = res[2];
-    }
-
-    @Override
-    public void measureUpload() {
-        // TODO: Implement or scrap this method.
-        // I can't think of a way to implement this.
-        // For now.
     }
 
     private float[] calcAvgMinMax(float[] array) {

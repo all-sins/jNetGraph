@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `tsu_impl` (
     `exec_timestamp`    TIMESTAMP DEFAULT NOW(), -- Leaving this in case of manual testing. Remove if it becomes an issue.
     `response_time`     FLOAT(10),
     `download_speed` 	FLOAT(10),
-    `upload_speed` 		FLOAT(10)
+    `upload_speed` 		FLOAT(10) -- Consider this comment as a soft-delete for the time being. To be hard-deleted later on.
 
 )ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
