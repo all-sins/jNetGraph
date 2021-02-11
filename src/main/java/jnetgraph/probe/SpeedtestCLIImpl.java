@@ -1,7 +1,9 @@
 package jnetgraph.probe;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jnetgraph.probe.speedtestResultsDTO.SpeedDataDTO;
+import jnetgraph.dto.speedtestResultsDTO.SpeedDataDTO;
+import jnetgraph.exception.SpeedtestCLIProcessingException;
 import org.apache.commons.lang3.builder.RecursiveToStringStyle;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.slf4j.LoggerFactory;
@@ -25,7 +27,9 @@ public class SpeedtestCLIImpl {
         this.speedtestPath = speedtestPath;
     }
 
-    public SpeedDataDTO getData() throws IOException {
+    //The actual implementation of SpeedtestCLI. When method called, it runs the .exe file, gets data as json
+    // and returns SpeedDataDTO object that can further be used to create final object - SpeedtestCLI
+    public SpeedDataDTO getData() {
         StringBuffer output = new StringBuffer();
         Process p;
         try {
@@ -38,24 +42,31 @@ public class SpeedtestCLIImpl {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            throw new SpeedtestCLIProcessingException("301", "getData() failed on running/reading data from Ookla speedtest.exe");
         }
         LOGGER.debug("Data received from speedtest.exe: " + output.toString());
-        SpeedDataDTO speedDataDTO = new ObjectMapper().readValue(output.toString(), SpeedDataDTO.class);
-        LOGGER.debug("DTO object created from JSON string:" +"\n" + ReflectionToStringBuilder.reflectionToString(speedDataDTO, RecursiveToStringStyle.MULTI_LINE_STYLE));
-        return speedDataDTO;
+        try {
+            SpeedDataDTO speedDataDTO = new ObjectMapper().readValue(output.toString(), SpeedDataDTO.class);
+            LOGGER.debug("DTO object created from JSON string:" + "\n" + ReflectionToStringBuilder.reflectionToString(speedDataDTO, RecursiveToStringStyle.MULTI_LINE_STYLE));
+            return speedDataDTO;
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new SpeedtestCLIProcessingException("300", "getData() failed on creating SpeedDataDTO object from json file");
+        }
+
 
     }
 
-    public float downloadSpeed(int bytes, int elapsed){
-        int mb = (bytes/1024)/1024;
-        float s = elapsed/1000;
-        return (mb/s)*8;
+    public float downloadSpeed(int bytes, int elapsed) {
+        int mb = (bytes / 1024) / 1024;
+        float s = elapsed / 1000;
+        return (mb / s) * 8;
     }
 
-    public float uploadSpeed(int bytes, int elapsed){
-        int mb = (bytes/1024)/1024;
-        float s = elapsed/1000;
-        return (mb/s)*8;
+    public float uploadSpeed(int bytes, int elapsed) {
+        int mb = (bytes / 1024) / 1024;
+        float s = elapsed / 1000;
+        return (mb / s) * 8;
     }
 
 }

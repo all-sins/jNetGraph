@@ -15,21 +15,21 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 )ENGINE=InnoDB  DEFAULT CHARSET =UTF8;
 
-CREATE TABLE IF NOT EXISTS `speedtestcli` (
+CREATE TABLE IF NOT EXISTS `speedtest_cli` (
 
-    `stcliid` 			    INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `userfk`               INT,
-    `exectimestamp`        TIMESTAMP DEFAULT NOW(), -- Leaving this in case of manual testing. Remove if it becomes an issue.
-    `jitterms`             FLOAT(10),
-    `latencyms`     	    FLOAT(10),
-    `downloadspeedmbps`	    FLOAT(10),
-    `uploadspeedmbps`      FLOAT(10),
-    `packetlosspercentage` FLOAT(10),
-    FOREIGN KEY(userfk)    REFERENCES user(id)
+    `stcli_id` 			    INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `user_fk`               INT,
+    `exec_timestamp`        TIMESTAMP DEFAULT NOW(), -- Leaving this in case of manual testing. Remove if it becomes an issue.
+    `jitter_ms`             FLOAT(10),
+    `latency_ms`     	    FLOAT(10),
+    `downloadspeed_mbps`	FLOAT(10),
+    `uploadspeed_mbps`      FLOAT(10),
+    `packetloss_percentage` FLOAT(10),
+    FOREIGN KEY(user_fk)    REFERENCES user(id)
 
 )ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
-CREATE TABLE IF NOT EXISTS `tsu_impl` (
+CREATE TABLE IF NOT EXISTS `tsu_icmp` (
 
     `id` 				int NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `exec_timestamp`    TIMESTAMP DEFAULT NOW(), -- Leaving this in case of manual testing. Remove if it becomes an issue.
@@ -39,17 +39,13 @@ CREATE TABLE IF NOT EXISTS `tsu_impl` (
 
 )ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
-INSERT INTO USER( `name` ,`surname`, `email`, `password`)
+INSERT INTO USER( `name` ,`surname`, `email`)
 VALUES
-('Arturs', 'Uzvards', 'arturs@mail.com', 'arturs1');
+('Dmitrijs', 'Uzvards', 'mail@mail.com');
 
-INSERT INTO USER( `name` ,`surname`, `email`, `password`)
+INSERT INTO USER( `name` ,`surname`, `email`)
 VALUES
-('Mara', 'Uzvards', 'mara@mail.com', 'mara1');
-
-INSERT INTO USER( `name` ,`surname`, `email`, `password`)
-VALUES
-('Admins', 'Uzvards', 'admin@mail.com', 'admin1');
+('Dmitrijs', 'Uzvards', 'mail@mail.com');
 
 INSERT INTO SPEEDTESTCLI (userfk, exectimestamp, jitterms, latencyms, downloadspeedmbps, uploadspeedmbps, packetlosspercentage)
 VALUES
