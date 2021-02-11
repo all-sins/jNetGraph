@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 
 // This class is responsible for executing code when and if a
-// specific exception or exceptions occur. Think of it like
+// specific exception ŗor exceptions occur. Think of it like
 // a listener for errors.
 public class GlobalExceptionHandler {
 
