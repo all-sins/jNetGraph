@@ -80,4 +80,37 @@ public class UserServiceTest {
         userService.softDeleteUser(user.getId());
         assertEquals(UserStatus.DELETED, result.getUserStatus());
     }
+
+    @Test
+    public void changePassword() {
+        User user = new User();
+        user.setId(5L);
+        user.setName("TestName");
+        user.setSurname("TestSurname");
+        user.setEmail("Test@Email.com");
+        user.setPassword("testpassword");
+        when(userRepository.save(user)).thenReturn(user);
+        when(userRepository.findById(5L)).thenReturn(Optional.of(user));
+        userService.addNewUser(user);
+        assertEquals("testpassword", user.getPassword());
+        userService.changePassword(5L, "changedpassword");
+        assertEquals("changedpassword", user.getPassword());
+    }
+
+    @Test
+    public void changeEmail() {
+        User user = new User();
+        user.setId(5L);
+        user.setName("TestName");
+        user.setSurname("TestSurname");
+        user.setEmail("Test@Email.com");
+        user.setPassword("testpassword");
+        when(userRepository.save(user)).thenReturn(user);
+        when(userRepository.findById(5L)).thenReturn(Optional.of(user));
+        userService.addNewUser(user);
+        assertEquals("Test@Email.com", user.getEmail());
+        userService.changeEmail(5L, "changedmail@mail.lv");
+        assertEquals("changedmail@mail.lv", user.getEmail());
+
+    }
 }

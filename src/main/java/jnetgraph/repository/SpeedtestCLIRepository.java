@@ -13,4 +13,7 @@ public interface SpeedtestCLIRepository extends JpaRepository<SpeedtestCLI, Long
     @Query("select s from SpeedtestCLI s where s.execTimestamp >= :startDate and s.execTimestamp <= :endDate and s.user.id = :userId")
     List<SpeedtestCLI> getDataForPeriod(@Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("userId") Long userId);
 
+    @Query("select s from SpeedtestCLI s where s.user.id = :id")
+    List<SpeedtestCLI> getDataPerUser(@Param("id") Long id);
+
 }

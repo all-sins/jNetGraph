@@ -1,5 +1,6 @@
 package jnetgraph.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jnetgraph.model.User;
 import org.hibernate.annotations.CreationTimestamp;
@@ -13,6 +14,7 @@ public class SpeedtestCLIDTO {
     private Long stcliId;
 
     @JsonProperty("execTimestamp")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss.SSS")
     private Date execTimestamp;
 
     @JsonProperty("jitterMS")

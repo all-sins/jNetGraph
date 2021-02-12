@@ -80,6 +80,14 @@ public class SpeedtestCLIService {
         thread.start();
     }
 
+    public List<SpeedtestCLI> getAll(){
+        return speedtestCLIRepository.findAll();
+    }
+
+    public List<SpeedtestCLI> getAllForUser(Long id){
+        return speedtestCLIRepository.getDataPerUser(id);
+    }
+
 
     public List<SpeedtestCLI> getDataForPeriod(String startDate, String endDate, String userId) throws ParseException {
         Calendar c = Calendar.getInstance();
