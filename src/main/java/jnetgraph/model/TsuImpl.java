@@ -1,5 +1,7 @@
 package jnetgraph.model;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -13,9 +15,13 @@ public class TsuImpl {
     private Long tsuimpl_id;
 
     @ManyToOne
-    @JoinColumn(name = "tsuimpl_to_user_fk")
+    @JoinColumn(name = "user_fk")
     private User user;
 
+    // What does it do? Why does it work.
+    // Why does Spring Boot like to torture my poor soul
+    // with these god forsaken annotations???
+    @CreationTimestamp
     @Column(name = "exec_timestamp")
     private Date exec_timestamp;
 
@@ -25,18 +31,13 @@ public class TsuImpl {
     @Column(name = "download_speed")
     private Float download_speed;
 
-    @Column(name = "upload_speed")
-    private Float upload_speed;
-
     public TsuImpl() {
     }
 
-    public TsuImpl(Long tsuimpl_id, Date exec_timestamp, Float response_time, Float download_speed, Float upload_speed) {
-        this.tsuimpl_id = tsuimpl_id;
-        this.exec_timestamp = exec_timestamp;
+    public TsuImpl(User user, Float response_time, Float download_speed) {
+        this.user = user;
         this.response_time = response_time;
         this.download_speed = download_speed;
-        this.upload_speed = upload_speed;
     }
 
     // Constructor used for DTO mapper.
@@ -84,11 +85,11 @@ public class TsuImpl {
         this.download_speed = download_speed;
     }
 
-    public Float getUpload_speed() {
-        return upload_speed;
+    public User getUser() {
+        return user;
     }
 
-    public void setUpload_speed(Float upload_speed) {
-        this.upload_speed = upload_speed;
+    public void setUser(User user) {
+        this.user = user;
     }
 }

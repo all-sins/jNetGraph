@@ -22,6 +22,7 @@ private final UserMapper userMapper;
         this.userService = userService;
         this.userMapper = userMapper;
     }
+
     @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
     @PostMapping("/user")
     public UserDTO addNewUser(@Valid @RequestBody UserDTO userDTO) {
@@ -30,16 +31,11 @@ private final UserMapper userMapper;
         return userMapper.toDTO(savedUser);
     }
 
-
     @RolesAllowed("ROLE_ADMIN")
     @DeleteMapping("/user({id})")
     public void softDeleteUser(@PathVariable("id") Long id){
         userService.softDeleteUser(id);
     }
-
-
-
-
 
     @RolesAllowed(("ROLE_ADMIN"))
     @PutMapping("/user({id})/changeemail/{email}")
@@ -56,11 +52,5 @@ private final UserMapper userMapper;
         userService.changePassword(id, password);
 
     }
-
-
-
-
-
-
 
 }
