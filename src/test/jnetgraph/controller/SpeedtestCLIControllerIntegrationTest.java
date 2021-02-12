@@ -83,22 +83,10 @@ public class SpeedtestCLIControllerIntegrationTest {
         speedtestCLIDTO.setPacketLossPercentage(1.080f);
 
 
-        mvc.perform(get("/rest/api/SpeedtestCLI.svc/speedtestcli/1")
+        mvc.perform(post("/rest/api/SpeedtestCLI.svc/speedtestcli/1")
                 .contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(speedtestCLIDTO)))
-                .andExpect(status().isOk())
-
-        ;
-
-
-
-
-
-
-//        speedtestCLIService.setCheck(false);
-
-//        mvc.perform(post("/rest/api/SpeedtestCLI.svc/speedtestcli/1/stop"));
+                .andExpect(status().isOk());
 
         assertEquals(1,speedtestCLIRepository.findAll().size());
-
     }
 }

@@ -2,6 +2,7 @@ package jnetgraph.probe;
 
 import jnetgraph.exception.MeasuringException;
 
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedInputStream;
@@ -16,10 +17,17 @@ import java.net.UnknownHostException;
 @Component
 public class TsuImplProbe extends NetDataGatherer {
 
+    private final org.slf4j.Logger log = LoggerFactory.getLogger(TsuImplProbe.class);
+
     @Override
     public void measureAll() {
-        measureLatency(10, 10000);
+        log.debug("[TsuImpl] Starting latency test...");
+        measureLatency(30, 10000);
+        log.debug("[TsuImpl] "+ avgMs +" ms");
+
+        log.debug("[TsuImpl] Starting download test...");
         measureDownload();
+        log.debug("[TsuImpl] "+ avgDl +" kb/s");
         // measureUpload();
     }
 
@@ -64,11 +72,11 @@ public class TsuImplProbe extends NetDataGatherer {
     @Override
     public void measureDownload() {
 
-        // Measure time taken to download a 50MB iso file x times.
-        int x = 1;
-        float fileSizeInBytes = 50f * 1024f;
+        // Measure time taken to download a 5MB iso file x times.
+        int x = 2;
+        float fileSizeInBytes = 1 * 1024f;
         long[] dlTimes = new long[x];
-        String testDomain = "http://ipv4.scaleway.testdebit.info/50M.iso";
+        String testDomain = "http://ipv4.scaleway.testdebit.info/1M.iso";
         // Left the loop in for ease of change later if need be.
         for (int i = 0; i < x; i++) {
             // This one-liner is pretty nuts. It does all of the following:
@@ -119,19 +127,4 @@ public class TsuImplProbe extends NetDataGatherer {
         return new float[]{avg, min, max};
     }
 
-    // Used for debugging, remove once finished.
-    private void printDebugInfo() {
-        System.out.println("\t\t\tMIN\tAVG\tMAX");
-        System.out.println("Latency:\t" + minMs + "\t" + avgMs + "\t" + maxMs);
-        System.out.println("Download:\t" + minDl + "\t" + avgDl + "\t" + maxDl);
-        System.out.println("Upload:\t" + minUp + "\t" + avgUp + "\t" + maxUp);
-    }
-
-    // Used for debugging, remove once finished.
-    public static void main(String[] args) {
-        TsuImplProbe tsuImplProbe = new TsuImplProbe();
-        tsuImplProbe.printDebugInfo();
-        tsuImplProbe.measureAll();
-        tsuImplProbe.printDebugInfo();
-    }
 }
