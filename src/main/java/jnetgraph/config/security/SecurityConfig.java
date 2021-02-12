@@ -10,32 +10,32 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
 @Configuration
 @EnableWebSecurity
+@Component
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private final UserRepository userRepository;
+
     @Autowired
-    UserRepository userRepository;
+    public SecurityConfig(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
-                .withUser("arturs@mail.com")
-                .password(passwordEncoder()
-                        .encode(userRepository.findByEmail("arturs@mail.com").get(0).getPassword()))
-                .authorities("ROLE_USER");
-
-        auth.inMemoryAuthentication()
                 .withUser("mara@mail.com")
-                .password(passwordEncoder()
-                        .encode(userRepository.findByEmail("mara@mail.com").get(0).getPassword()))
+                .password(passwordEncoder().encode(userRepository.findByEmail("mara@mail.com").get(0).getPassword()))
                 .authorities("ROLE_USER");
 
         auth.inMemoryAuthentication()
                 .withUser("admin@mail.com")
-                .password(passwordEncoder()
-                        .encode(userRepository.findByEmail("admin@mail.com").get(0).getPassword()))
+                .password(passwordEncoder().encode("root"))
                 .authorities("ROLE_ADMIN");
+                // userRepository.findByEmail("admin@mail.com").get(0).getPassword())
     }
 
     @Bean

@@ -14,9 +14,6 @@ public class JNetGraph {
         // Run the Spring application.
         SpringApplication.run(JNetGraph.class, args);
 
-        // Placeholder code.
-        LOGGER.info("Our super cool application!");
-
     }
 
 }

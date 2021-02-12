@@ -21,6 +21,7 @@ private final UserMapper userMapper;
         this.userService = userService;
         this.userMapper = userMapper;
     }
+
     @RolesAllowed("ROLE_ADMIN")
     @PostMapping("/user")
     public UserDTO addNewUser(@Valid @RequestBody UserDTO userDTO) {
@@ -29,15 +30,11 @@ private final UserMapper userMapper;
         return userMapper.toDTO(savedUser);
     }
 
-
     @RolesAllowed("ROLE_ADMIN")
     @DeleteMapping("/user({id})")
     public void softDeleteUser(@PathVariable("id") Long id){
         userService.softDeleteUser(id);
     }
-
-
-
 
 
 }

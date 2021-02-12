@@ -1,20 +1,18 @@
 package jnetgraph.service;
 
+import jnetgraph.dto.speedtestResultsDTO.SpeedDataDTO;
 import jnetgraph.exception.SpeedtestCLIProcessingException;
 import jnetgraph.mapper.SpeedtestCLIMapper;
 import jnetgraph.mapper.StringToDate;
 import jnetgraph.model.SpeedtestCLI;
 import jnetgraph.model.User;
 import jnetgraph.probe.SpeedtestCLIImpl;
-import jnetgraph.dto.speedtestResultsDTO.SpeedDataDTO;
 import jnetgraph.repository.SpeedtestCLIRepository;
 import org.apache.commons.lang3.builder.RecursiveToStringStyle;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.io.IOException;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.List;
@@ -79,7 +77,7 @@ public class SpeedtestCLIService {
                 }
             }
         });
-        thread.run();
+        thread.start();
     }
 
 
@@ -88,7 +86,6 @@ public class SpeedtestCLIService {
         c.setTime(stringToDate.convert(endDate));
         c.add(Calendar.DATE,1);
         return speedtestCLIRepository.getDataForPeriod(stringToDate.convert(startDate), c.getTime(), Long.parseLong(userId));
-
     }
 
 
