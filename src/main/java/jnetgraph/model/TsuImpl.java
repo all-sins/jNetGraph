@@ -13,7 +13,7 @@ public class TsuImpl {
     private Long tsuimpl_id;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "tsuimpl_to_user_fk")
     private User user;
 
     @Column(name = "exec_timestamp")

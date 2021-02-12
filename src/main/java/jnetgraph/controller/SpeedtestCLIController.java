@@ -13,6 +13,7 @@ import java.text.ParseException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 @RestController
 @RequestMapping("/rest/api/SpeedtestCLI.svc")
 public class SpeedtestCLIController {
@@ -45,6 +46,18 @@ public class SpeedtestCLIController {
 
     }
 
+    @GetMapping("/speedtestcli")
+    @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
+    public List<SpeedtestCLIDTO> getAll(){
+        return speedtestCLIService.getAll().stream().map(speedtestCLIMapper::toDTO).collect(Collectors.toList());
+    }
+
+    @GetMapping("/speedtestcli({id})")
+    @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
+    public List<SpeedtestCLIDTO> getAllForUser(@PathVariable("id") Long id){
+        return  speedtestCLIService.getAllForUser(id).stream().map(speedtestCLIMapper::toDTO).collect(Collectors.toList());
+    }
+
     //Getting all existing entries for particular userId for particular time period.
     @GetMapping("/speedtestcli({userId}){startDate}till{endDate}")
     @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
@@ -56,4 +69,5 @@ public class SpeedtestCLIController {
 
 
     }
+
 }

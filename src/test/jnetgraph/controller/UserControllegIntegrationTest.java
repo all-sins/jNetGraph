@@ -27,8 +27,7 @@ import org.springframework.web.context.WebApplicationContext;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -81,6 +80,8 @@ public class UserControllegIntegrationTest {
         User user = userRepository.findById(2L).orElseThrow(() -> new UserAdministrationException("401", "No user found with given ID!"));
         assertTrue(user.getUserStatus().equals(UserStatus.DELETED));
     }
+
+
 }
 
 

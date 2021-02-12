@@ -31,11 +31,13 @@ CREATE TABLE IF NOT EXISTS `speedtestcli` (
 
 CREATE TABLE IF NOT EXISTS `tsu_impl` (
 
-    `id` 				int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `tsuimpl_id` 				INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `tsuimpl_to_user_fk`            INT,
     `exec_timestamp`    TIMESTAMP DEFAULT NOW(), -- Leaving this in case of manual testing. Remove if it becomes an issue.
     `response_time`     FLOAT(10),
     `download_speed` 	FLOAT(10),
-    `upload_speed` 		FLOAT(10) -- Consider this comment as a soft-delete for the time being. To be hard-deleted later on.
+    `upload_speed` 		FLOAT(10),
+     FOREIGN KEY(tsuimpl_to_user_fk)    REFERENCES user(id)-- Consider this comment as a soft-delete for the time being. To be hard-deleted later on.
 
 )ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 
+
 @RestController
 @RequestMapping("/rest/api/User.svc")
 public class UserController {
@@ -21,7 +22,7 @@ private final UserMapper userMapper;
         this.userService = userService;
         this.userMapper = userMapper;
     }
-    @RolesAllowed("ROLE_ADMIN")
+    @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
     @PostMapping("/user")
     public UserDTO addNewUser(@Valid @RequestBody UserDTO userDTO) {
         User userToSave = userMapper.fromDTO(userDTO);
@@ -35,6 +36,28 @@ private final UserMapper userMapper;
     public void softDeleteUser(@PathVariable("id") Long id){
         userService.softDeleteUser(id);
     }
+
+
+
+
+
+    @RolesAllowed(("ROLE_ADMIN"))
+    @PutMapping("/user({id})/changeemail/{email}")
+    public void changeEmail(@PathVariable("id") Long id,
+                            @PathVariable("email") String email){
+        userService.changeEmail(id, email);
+
+    }
+
+    @RolesAllowed(("ROLE_USER"))
+    @PutMapping("/user({id})/changepassword/{password}")
+    public void changePassword(@PathVariable("id") Long id,
+                            @PathVariable("password") String password){
+        userService.changePassword(id, password);
+
+    }
+
+
 
 
 
