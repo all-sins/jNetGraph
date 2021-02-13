@@ -18,6 +18,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+
+import static java.lang.Thread.sleep;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
@@ -46,6 +48,9 @@ public class SpeedtestCLIControllerIntegrationTest {
 
     @Autowired
     private WebApplicationContext context;
+
+    @Autowired
+    private SpeedtestCLIService speedtestCLIService;
 
 
     @Before
@@ -86,6 +91,10 @@ public class SpeedtestCLIControllerIntegrationTest {
         mvc.perform(post("/rest/api/SpeedtestCLI.svc/speedtestcli/1")
                 .contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(speedtestCLIDTO)))
                 .andExpect(status().isOk());
+        System.out.println("Waiting until speedtest happens");
+        Whitebox.setInternalState(speedtestCLIService, "check", false);
+        sleep(30000);
+
 
         assertEquals(1,speedtestCLIRepository.findAll().size());
     }

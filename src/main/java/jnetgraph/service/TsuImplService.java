@@ -63,10 +63,7 @@ public class TsuImplService {
 
         // Set the hours, minutes, seconds and milliseconds to a second before the next day,
         // because when a user asks until that day, they mean - including that day.
-        toCal.set(Calendar.HOUR_OF_DAY, 23);
-        toCal.set(Calendar.MINUTE, 59);
-        toCal.set(Calendar.SECOND, 59);
-        toCal.set(Calendar.MILLISECOND, 999);
+
 
         return tsuImplRepository.getDataForPeriod(fromCal.getTime(), toCal.getTime(), userId);
     }

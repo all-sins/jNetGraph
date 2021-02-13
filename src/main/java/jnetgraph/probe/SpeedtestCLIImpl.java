@@ -31,6 +31,7 @@ public class SpeedtestCLIImpl {
     // and returns SpeedDataDTO object that can further be used to create final object - SpeedtestCLI
     public SpeedDataDTO getData() {
         StringBuffer output = new StringBuffer();
+        //TODO:nav smuki viena burta nosaukumus lietot
         Process p;
         try {
             p = Runtime.getRuntime().exec(speedtestPath + " -f json");
@@ -40,9 +41,11 @@ public class SpeedtestCLIImpl {
             while ((line = reader.readLine()) != null) {
                 output.append(line);
             }
+            //TODO:labaak konkreetu exception lietot - IO piemeeram
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new SpeedtestCLIProcessingException("301", "getData() failed on running/reading data from Ookla speedtest.exe");
+
+            throw new SpeedtestCLIProcessingException("301", "getData() failed on running/reading data from Ookla speedtest.exe", e);
+
         }
         LOGGER.debug("Data received from speedtest.exe: " + output.toString());
         try {
@@ -50,7 +53,8 @@ public class SpeedtestCLIImpl {
             LOGGER.debug("DTO object created from JSON string:" + "\n" + ReflectionToStringBuilder.reflectionToString(speedDataDTO, RecursiveToStringStyle.MULTI_LINE_STYLE));
             return speedDataDTO;
         } catch (IOException e) {
-            e.printStackTrace();
+            //printscacktrace vietaa. Nevajag loggeri veel ja ir throw jau
+            LOGGER.error(e.getMessage(),e);
             throw new SpeedtestCLIProcessingException("300", "getData() failed on creating SpeedDataDTO object from json file");
         }
 

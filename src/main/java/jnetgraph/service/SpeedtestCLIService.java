@@ -61,11 +61,14 @@ public class SpeedtestCLIService {
             public void run() {
 
                 while (check) {
+                    long start = System.currentTimeMillis();
+
                     LOGGER.info("Running Ookla speedtest and collecting results");
                     SpeedDataDTO speedDataDTO = null;
                     speedDataDTO = speedtestCLIImpl.getData();
                     SpeedtestCLI speedtestCLI = speedtestCLIMapper.dataToObject(speedDataDTO, speedtestCLIImpl);
                     speedtestCLI.setUser(user);
+                    System.out.println("Saving entry to database: " + ReflectionToStringBuilder.reflectionToString(speedtestCLI, RecursiveToStringStyle.SIMPLE_STYLE));
                     LOGGER.debug("Saving entry to database: " + ReflectionToStringBuilder.reflectionToString(speedtestCLI, RecursiveToStringStyle.SIMPLE_STYLE));
                     speedtestCLIRepository.save(speedtestCLI);
                     try {
@@ -74,6 +77,7 @@ public class SpeedtestCLIService {
                         e.printStackTrace();
                         throw new SpeedtestCLIProcessingException("302", "Thread processing error while creating new SpeedtestCLI entries!");
                     }
+                    LOGGER.debug(String.valueOf(System.currentTimeMillis() - start));
                 }
             }
         });
@@ -90,10 +94,17 @@ public class SpeedtestCLIService {
 
 
     public List<SpeedtestCLI> getDataForPeriod(String startDate, String endDate, String userId) throws ParseException {
-        Calendar c = Calendar.getInstance();
-        c.setTime(stringToDate.convert(endDate));
-        c.add(Calendar.DATE,1);
-        return speedtestCLIRepository.getDataForPeriod(stringToDate.convert(startDate), c.getTime(), Long.parseLong(userId));
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(stringToDate.convert(endDate));
+//        calendar.set(Calendar.HOUR_OF_DAY, 23);
+//        calendar.set(Calendar.MINUTE, 59);
+//        calendar.set(Calendar.SECOND, 59);
+//        calendar.set(Calendar.MILLISECOND, 999);
+        calendar.add(Calendar.HOUR,24);
+        calendar.add(Calendar.MILLISECOND, -1);
+
+//        calendar.add(Calendar.DATE,1);
+        return speedtestCLIRepository.getDataForPeriod(stringToDate.convert(startDate), calendar.getTime(), Long.parseLong(userId));
     }
 
 

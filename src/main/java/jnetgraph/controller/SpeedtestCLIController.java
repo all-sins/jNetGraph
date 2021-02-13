@@ -40,8 +40,8 @@ public class SpeedtestCLIController {
 
     //Controller method to stop getting data. If not called speedtestCLIService.createNewEntry() will keep running.
     @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
-    @PostMapping("/speedtestcli/{userId}/stop")
-    public void stop(@PathVariable("userId") Long userId) {
+    @PostMapping("/speedtestcli/stop")
+    public void stop() {
         speedtestCLIService.setCheck(false);
 
     }
