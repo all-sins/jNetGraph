@@ -13,11 +13,11 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 CREATE TABLE IF NOT EXISTS `speedtestcli` (
 
-    `stcliid` 			                INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `stcliid` 			            INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `userfk`                        INT,
     `exectimestamp`                 TIMESTAMP DEFAULT NOW(),
     `jitterms`                      FLOAT(10),
-    `latencyms`     	              FLOAT(10),
+    `latencyms`     	            FLOAT(10),
     `downloadspeedmbps`	            FLOAT(10),
     `uploadspeedmbps`               FLOAT(10),
     `packetlosspercentage`          FLOAT(10),
@@ -29,11 +29,11 @@ CREATE TABLE IF NOT EXISTS `speedtestcli` (
 
 CREATE TABLE IF NOT EXISTS `tsu_impl` (
 
-    `tsuimpl_id` 		                INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `tsuimpl_id` 		            INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `user_fk`                       INT,
     `exec_timestamp`                TIMESTAMP DEFAULT NOW(),
     `response_time`                 FLOAT(2),
-    `download_speed` 	              FLOAT(2), -- I think this actually limits the decimal precision to FLOAT(x) spaces.
+    `download_speed` 	            FLOAT(2), -- I think this actually limits the decimal precision to FLOAT(x) spaces.
     FOREIGN KEY(user_fk)            REFERENCES user(id)
 
 )ENGINE=InnoDB DEFAULT CHARSET=UTF8;
