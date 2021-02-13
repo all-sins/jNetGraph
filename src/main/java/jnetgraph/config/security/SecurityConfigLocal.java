@@ -4,6 +4,7 @@ import jnetgraph.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -15,12 +16,13 @@ import org.springframework.stereotype.Component;
 @Configuration
 @EnableWebSecurity
 @Component
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+@Profile("local")
+public class SecurityConfigLocal extends WebSecurityConfigurerAdapter {
 
     private final UserRepository userRepository;
 
     @Autowired
-    public SecurityConfig(UserRepository userRepository) {
+    public SecurityConfigLocal(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
@@ -46,7 +48,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
+        // Disabled build in protection against CORS.
         http.csrf().disable();
+
         //TODO:This is only to work with H2 console. For PROD should be removed
         http.headers().frameOptions().disable();
 

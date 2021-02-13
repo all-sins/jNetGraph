@@ -3,6 +3,7 @@ package jnetgraph.controller;
 import jnetgraph.dto.MeasuringInfoDTO;
 import jnetgraph.dto.TsuImplDTO;
 import jnetgraph.dto.TsuImplWithUserDTO;
+import jnetgraph.dto.UserPeriodRequestDTO;
 import jnetgraph.mapper.StringToDate;
 import jnetgraph.mapper.TsuImplMapper;
 import jnetgraph.mapper.TsuImplWithUserDTOMapper;
@@ -90,6 +91,15 @@ public class TsuImplController {
         });
 
         return convertedResults;
+    }
+
+    // Experimental.
+    @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
+    @PostMapping("/measuring/user/fromTo")
+    List<TsuImplDTO> getDataFromToExp(@RequestBody UserPeriodRequestDTO dto) {
+
+        return null;
+
     }
 
     @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
