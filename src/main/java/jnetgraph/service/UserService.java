@@ -1,35 +1,22 @@
 package jnetgraph.service;
 
 import jnetgraph.exception.UserAdministrationException;
-import jnetgraph.model.SpeedtestCLI;
-import jnetgraph.model.TsuImpl;
 import jnetgraph.model.User;
 import jnetgraph.model.UserStatus;
-import jnetgraph.repository.SpeedtestCLIRepository;
-import jnetgraph.repository.TsuImplRepository;
 import jnetgraph.repository.UserRepository;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-
 @Component
 public class UserService {
     private final UserRepository userRepository;
-    private final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(SpeedtestCLIService.class);
-
+    private final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
     @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-
     }
-
-
-
 
     public User findById(Long id) {
         LOGGER.debug("Finding user with ID: " + id);

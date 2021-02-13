@@ -24,7 +24,7 @@ public class TsuImplService {
     private long userIdToMeasure;
     private final TsuImplRepository tsuImplRepository;
 
-    private final org.slf4j.Logger log = LoggerFactory.getLogger(TsuImplProbe.class);
+    private final org.slf4j.Logger log = LoggerFactory.getLogger(TsuImplService.class);
 
     @Autowired
     public TsuImplService(TsuImplRepository tsuImplRepository, TsuImplProbe tsuImplProbe) {
