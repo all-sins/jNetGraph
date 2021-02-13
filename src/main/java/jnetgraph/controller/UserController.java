@@ -5,7 +5,10 @@ import jnetgraph.model.User;
 import jnetgraph.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
+
 
 @RestController
 @RequestMapping("/rest/api/User.svc")
@@ -20,6 +23,7 @@ private final UserMapper userMapper;
         this.userMapper = userMapper;
     }
 
+    @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
     @PostMapping("/user")
     public UserDTO addNewUser(@Valid @RequestBody UserDTO userDTO) {
         User userToSave = userMapper.fromDTO(userDTO);
@@ -27,18 +31,26 @@ private final UserMapper userMapper;
         return userMapper.toDTO(savedUser);
     }
 
-
-//    @DeleteMapping("/user({id})")
-//    public void hardDeleteUser(@PathVariable("id") Long id){
-//        User userToDelete = userService.findById(id);
-//        userService.deleteUser(userToDelete);
-//    }
-
+    @RolesAllowed("ROLE_ADMIN")
     @DeleteMapping("/user({id})")
     public void softDeleteUser(@PathVariable("id") Long id){
-        User userToDelete = userService.findById(id);
-        userService.softDeleteUser(userToDelete);
+        userService.softDeleteUser(id);
     }
 
+    @RolesAllowed(("ROLE_ADMIN"))
+    @PutMapping("/user({id})/changeemail/{email}")
+    public void changeEmail(@PathVariable("id") Long id,
+                            @PathVariable("email") String email){
+        userService.changeEmail(id, email);
+
+    }
+
+    @RolesAllowed(("ROLE_USER"))
+    @PutMapping("/user({id})/changepassword/{password}")
+    public void changePassword(@PathVariable("id") Long id,
+                            @PathVariable("password") String password){
+        userService.changePassword(id, password);
+
+    }
 
 }

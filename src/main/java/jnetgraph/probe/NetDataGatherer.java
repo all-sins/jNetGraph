@@ -1,11 +1,5 @@
 package jnetgraph.probe;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
-
 public abstract class NetDataGatherer {
 
     // Variables for latency.
@@ -19,31 +13,54 @@ public abstract class NetDataGatherer {
     protected float avgDl = 0;
 
     // Variables for upload speed.
-<<<<<<< HEAD
-    float minUp = 0;
-    float maxUp = 0;
-    float avgUp = 0;
-
-    // Used to populate whole object with all data,
-    // or specific parts.
-    abstract boolean measureAll() throws IOException;
-    abstract boolean measureLatency();
-    abstract boolean measureDownload();
-    abstract boolean measureUpload();
-=======
     protected float minUp = 0;
     protected float maxUp = 0;
     protected float avgUp = 0;
->>>>>>> 011c6cd0853668c2dadf5c265efadafef24a0dd8
 
     // Used to populate whole object with all data, or specific parts.
-    abstract void measureAll();
-    public abstract void measureLatency(int precision, int threshold);
-    abstract void measureDownload();
-    abstract void measureUpload();
+    abstract public void measureAll();
+    abstract public void measureLatency(int precision, int threshold);
+    abstract public void measureDownload();
 
     // TODO:
     // getJitter?
     // getPacketLoss?
     // getOverAllStatus?
+
+
+    public float getMinMs() {
+        return minMs;
+    }
+
+    public float getMaxMs() {
+        return maxMs;
+    }
+
+    public float getAvgMs() {
+        return avgMs;
+    }
+
+    public float getMinDl() {
+        return minDl;
+    }
+
+    public float getMaxDl() {
+        return maxDl;
+    }
+
+    public float getAvgDl() {
+        return avgDl;
+    }
+
+    public float getMinUp() {
+        return minUp;
+    }
+
+    public float getMaxUp() {
+        return maxUp;
+    }
+
+    public float getAvgUp() {
+        return avgUp;
+    }
 }

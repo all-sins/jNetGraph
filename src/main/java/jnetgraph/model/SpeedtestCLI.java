@@ -5,35 +5,35 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "speedtest_cli")
+@Table(name = "speedtestcli")
 public class SpeedtestCLI {
 
     @Id
-    @Column(name = "stcli_id")
+    @Column(name = "stcliid")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long stcliId;
 
     @CreationTimestamp
-    @Column(name = "exec_timestamp")
+    @Column(name = "exectimestamp")
     private Date execTimestamp;
 
-    @Column(name = "jitter_ms")
+    @Column(name = "jitterms")
     private float jitterMS;
 
-    @Column(name = "latency_ms")
+    @Column(name = "latencyms")
     private float latencyMS;
 
-    @Column(name = "downloadspeed_mbps")
+    @Column(name = "downloadspeedmbps")
     private float downloadSpeedMbps;
 
-    @Column(name = "uploadspeed_mbps")
+    @Column(name = "uploadspeedmbps")
     private float uploadSpeedMbps;
 
-    @Column(name = "packetloss_percentage")
+    @Column(name = "packetlosspercentage")
     private float packetLossPercentage;
 
     @ManyToOne
-    @JoinColumn(name = "user_fk")
+    @JoinColumn(name = "userfk")
     private User user;
 
     // Empty default constructor left here in case

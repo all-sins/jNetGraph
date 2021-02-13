@@ -1,49 +1,39 @@
 CREATE TABLE IF NOT EXISTS `user` (
-    `id`        INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `name`      varchar(MAX),
-    `surname`   varchar(MAX),
-    `userStatus` varchar(20),
-    `email`     varchar(100),
-    `password`  varchar(100)
 
-    -- Friends list FK
-	-- SpeedTestCLI_FK
-	-- Expample1_FK
-	-- Expample2_FK
-	-- ...
-	-- ArthurImpl_FK
+    `id`                            INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `name`                          VARCHAR(MAX),
+    `surname`                       VARCHAR(MAX),
+    `userStatus`                    VARCHAR(20),
+    `email`                         VARCHAR(100),
+    `password`                      VARCHAR(100)
 
 )ENGINE=InnoDB  DEFAULT CHARSET =UTF8;
 
-CREATE TABLE IF NOT EXISTS `speedtest_cli` (
 
-    `stcli_id` 			    INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `user_fk`               INT,
-    `exec_timestamp`        TIMESTAMP DEFAULT NOW(), -- Leaving this in case of manual testing. Remove if it becomes an issue.
-    `jitter_ms`             FLOAT(10),
-    `latency_ms`     	    FLOAT(10),
-    `downloadspeed_mbps`	FLOAT(10),
-    `uploadspeed_mbps`      FLOAT(10),
-    `packetloss_percentage` FLOAT(10),
-    FOREIGN KEY(user_fk)    REFERENCES user(id)
+
+CREATE TABLE IF NOT EXISTS `speedtestcli` (
+
+    `stcliid` 			                INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `userfk`                        INT,
+    `exectimestamp`                 TIMESTAMP DEFAULT NOW(),
+    `jitterms`                      FLOAT(10),
+    `latencyms`     	              FLOAT(10),
+    `downloadspeedmbps`	            FLOAT(10),
+    `uploadspeedmbps`               FLOAT(10),
+    `packetlosspercentage`          FLOAT(10),
+    FOREIGN KEY(userfk)             REFERENCES user(id)
 
 )ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+
 
 CREATE TABLE IF NOT EXISTS `tsu_impl` (
 
-    `id` 				int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `exec_timestamp`    TIMESTAMP DEFAULT NOW(), -- Leaving this in case of manual testing. Remove if it becomes an issue.
-    `response_time`     FLOAT(10),
-    `download_speed` 	FLOAT(10),
-    `upload_speed` 		FLOAT(10)
+    `tsuimpl_id` 		                INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `user_fk`                       INT,
+    `exec_timestamp`                TIMESTAMP DEFAULT NOW(),
+    `response_time`                 FLOAT(2),
+    `download_speed` 	              FLOAT(2), -- I think this actually limits the decimal precision to FLOAT(x) spaces.
+    FOREIGN KEY(user_fk)            REFERENCES user(id)
 
 )ENGINE=InnoDB DEFAULT CHARSET=UTF8;
-
-INSERT INTO USER( `name` ,`surname`, `email`)
-VALUES
-('Dmitrijs', 'Uzvards', 'mail@mail.com');
-
-INSERT INTO USER( `name` ,`surname`, `email`)
-VALUES
-('Dmitrijs', 'Uzvards', 'mail@mail.com');
-

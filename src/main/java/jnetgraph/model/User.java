@@ -31,6 +31,8 @@ public class User {
     @OneToMany(mappedBy = "stcliId")
     private List<SpeedtestCLI> speedtestCLIList;
 
+    @OneToMany(mappedBy = "tsuimpl_id")
+    private List<TsuImpl> tsuImplTest;
 
     public User() {
     }

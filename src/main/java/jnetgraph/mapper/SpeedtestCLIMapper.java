@@ -1,15 +1,17 @@
 package jnetgraph.mapper;
 import jnetgraph.dto.SpeedtestCLIDTO;
-import jnetgraph.dto.UserDTO;
 import jnetgraph.model.SpeedtestCLI;
-import jnetgraph.model.User;
 import jnetgraph.probe.SpeedtestCLIImpl;
-import jnetgraph.probe.speedtestResultsDTO.SpeedDataDTO;
+import jnetgraph.dto.speedtestResultsDTO.SpeedDataDTO;
 import org.springframework.stereotype.Component;
+
+import java.text.SimpleDateFormat;
 
 @Component
 public class SpeedtestCLIMapper {
 
+
+    //Maps SpeedtestCLI Object from data from speedtestResultsDTO package
     public SpeedtestCLI dataToObject(SpeedDataDTO speedDataDTO, SpeedtestCLIImpl speedtestCLIImpl) {
         return new SpeedtestCLI(
                 speedDataDTO.getPing().getJitter(),
@@ -21,6 +23,7 @@ public class SpeedtestCLIMapper {
     }
 
     public SpeedtestCLIDTO toDTO(SpeedtestCLI speedtestCLI) {
+//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         return new SpeedtestCLIDTO(
               speedtestCLI.getStcliId(),
                 speedtestCLI.getExecTimestamp(),

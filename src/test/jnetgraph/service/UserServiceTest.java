@@ -1,5 +1,6 @@
 package jnetgraph.service;
 
+import jnetgraph.exception.UserAdministrationException;
 import jnetgraph.model.User;
 import jnetgraph.model.UserStatus;
 import jnetgraph.repository.UserRepository;
@@ -39,9 +40,11 @@ public class UserServiceTest {
             user.setEmail("Test@Email.com");
             when(userRepository.findById(5L)).thenReturn(Optional.of(user));
             userService.findById(4L);
-        } catch (RuntimeException e) {
-            String errorMessage = "No user found with given ID";
+        } catch (UserAdministrationException e) {
+            String errorMessage = "No user found with given ID!";
+            String errorCode = "401";
             assertEquals(errorMessage, e.getMessage());
+            assertEquals(errorCode, e.getCode());
             throw e;
         }
     }
@@ -55,7 +58,7 @@ public class UserServiceTest {
         when(userRepository.save(user)).thenReturn(user);
         User result = userService.addNewUser(user);
         assertEquals(user, result);
-//        assertEquals(UserStatus.ACTIVE, user.getUserStatus());
+        assertEquals(UserStatus.ACTIVE, user.getUserStatus());
     }
 
     @Test
@@ -66,13 +69,48 @@ public class UserServiceTest {
     @Test
     public void softDeleteUser() {
         User user = new User();
+        user.setId(5L);
         user.setName("TestName");
         user.setSurname("TestSurname");
         user.setEmail("Test@Email.com");
         when(userRepository.save(user)).thenReturn(user);
+        when(userRepository.findById(5L)).thenReturn(Optional.of(user));
         User result = userService.addNewUser(user);
-//        assertEquals(UserStatus.ACTIVE, result.getUserStatus());
-//        userService.softDeleteUser(result);
-//        assertEquals(UserStatus.DELETED, result.getUserStatus());
+        assertEquals(UserStatus.ACTIVE, result.getUserStatus());
+        userService.softDeleteUser(user.getId());
+        assertEquals(UserStatus.DELETED, result.getUserStatus());
+    }
+
+    @Test
+    public void changePassword() {
+        User user = new User();
+        user.setId(5L);
+        user.setName("TestName");
+        user.setSurname("TestSurname");
+        user.setEmail("Test@Email.com");
+        user.setPassword("testpassword");
+        when(userRepository.save(user)).thenReturn(user);
+        when(userRepository.findById(5L)).thenReturn(Optional.of(user));
+        userService.addNewUser(user);
+        assertEquals("testpassword", user.getPassword());
+        userService.changePassword(5L, "changedpassword");
+        assertEquals("changedpassword", user.getPassword());
+    }
+
+    @Test
+    public void changeEmail() {
+        User user = new User();
+        user.setId(5L);
+        user.setName("TestName");
+        user.setSurname("TestSurname");
+        user.setEmail("Test@Email.com");
+        user.setPassword("testpassword");
+        when(userRepository.save(user)).thenReturn(user);
+        when(userRepository.findById(5L)).thenReturn(Optional.of(user));
+        userService.addNewUser(user);
+        assertEquals("Test@Email.com", user.getEmail());
+        userService.changeEmail(5L, "changedmail@mail.lv");
+        assertEquals("changedmail@mail.lv", user.getEmail());
+
     }
 }
