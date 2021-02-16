@@ -2,14 +2,14 @@ package jnetgraph.config.security;
 
 import jnetgraph.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -20,33 +20,30 @@ import org.springframework.stereotype.Component;
 public class SecurityConfigLocal extends WebSecurityConfigurerAdapter {
 
     private final UserRepository userRepository;
+    private final JNetGraphUserDetailsService userDetailsService;
+    private final PasswordEncoder encoder;
+
 
     @Autowired
-    public SecurityConfigLocal(UserRepository userRepository) {
+    public SecurityConfigLocal(UserRepository userRepository, JNetGraphUserDetailsService userDetailsService, PasswordEncoder encoder) {
         this.userRepository = userRepository;
+        this.userDetailsService = userDetailsService;
+        this.encoder = encoder;
     }
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("mara@mail.com")
-                .password(passwordEncoder().encode(userRepository.findByEmail("mara@mail.com").get(0).getPassword()))
-                .authorities("ROLE_USER");
 
-        auth.inMemoryAuthentication()
-                .withUser("admin@mail.com")
-                .password(passwordEncoder().encode("root"))
-                .authorities("ROLE_ADMIN");
-                // userRepository.findByEmail("admin@mail.com").get(0).getPassword())
+    public DaoAuthenticationProvider authProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(encoder);
+        return authProvider;
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
+
 
         // Disabled build in protection against CORS.
         http.csrf().disable();
@@ -56,11 +53,14 @@ public class SecurityConfigLocal extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 //TODO:Making Swagger and H2 accessible without authentification. Remove for PROD
-                .antMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**", "/h2-console/**")
+                .antMatchers("/rest/api/User.svc/user", "/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**", "/h2-console/**")
                 .permitAll()
 
                 .anyRequest()
                 .authenticated().and()
                 .httpBasic();
     }
+
 }
+
+

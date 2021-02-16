@@ -4,9 +4,9 @@ import jnetgraph.mapper.UserMapper;
 import jnetgraph.model.User;
 import jnetgraph.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 
@@ -17,14 +17,17 @@ public class UserController {
 
 private final UserService userService;
 private final UserMapper userMapper;
+private final PasswordEncoder passwordEncoder;
+
 
     @Autowired
-    public UserController(UserService userService, UserMapper userMapper) {
+    public UserController(UserService userService, UserMapper userMapper, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.userMapper = userMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
+//    @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
     @PostMapping("/user")
     public UserDTO addNewUser(@Valid @RequestBody UserDTO userDTO) {
         User userToSave = userMapper.fromDTO(userDTO);
@@ -32,13 +35,13 @@ private final UserMapper userMapper;
         return userMapper.toDTO(savedUser);
     }
 
-    @RolesAllowed("ROLE_ADMIN")
+//    @RolesAllowed("ROLE_ADMIN")
     @DeleteMapping("/user({id})")
     public void softDeleteUser(@PathVariable("id") Long id){
         userService.softDeleteUser(id);
     }
 
-    @RolesAllowed(("ROLE_ADMIN"))
+//    @RolesAllowed(("ROLE_ADMIN"))
     @PutMapping("/user({id})/changeemail/{email}")
     public void changeEmail(@PathVariable("id") Long id,
                             @PathVariable("email") String email){
@@ -46,7 +49,7 @@ private final UserMapper userMapper;
 
     }
 
-    @RolesAllowed(("ROLE_USER"))
+//    @RolesAllowed(("ROLE_USER"))
     @PutMapping("/user({id})/changepassword/{password}")
     public void changePassword(@PathVariable("id") Long id,
                             @PathVariable("password") String password){

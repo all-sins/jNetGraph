@@ -30,7 +30,7 @@ public class SpeedtestCLIController {
         this.speedtestCLIMapper = speedtestCLIMapper;
     }
 
-    @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
+//    @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
     @PostMapping("/speedtestcli/{userId}")
     public void addNewEntry(@PathVariable("userId") Long userId)  {
         speedtestCLIService.setCheck(true);
@@ -39,7 +39,7 @@ public class SpeedtestCLIController {
     }
 
     //Controller method to stop getting data. If not called speedtestCLIService.createNewEntry() will keep running.
-    @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
+//    @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
     @PostMapping("/speedtestcli/stop")
     public void stop() {
         speedtestCLIService.setCheck(false);
@@ -47,20 +47,20 @@ public class SpeedtestCLIController {
     }
 
     @GetMapping("/speedtestcli")
-    @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
+//    @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
     public List<SpeedtestCLIDTO> getAll(){
         return speedtestCLIService.getAll().stream().map(speedtestCLIMapper::toDTO).collect(Collectors.toList());
     }
 
     @GetMapping("/speedtestcli({id})")
-    @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
+//    @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
     public List<SpeedtestCLIDTO> getAllForUser(@PathVariable("id") Long id){
         return  speedtestCLIService.getAllForUser(id).stream().map(speedtestCLIMapper::toDTO).collect(Collectors.toList());
     }
 
     //Getting all existing entries for particular userId for particular time period.
     @GetMapping("/speedtestcli({userId}){startDate}till{endDate}")
-    @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
+//    @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
     public List<SpeedtestCLIDTO> getDateForPeriod(@PathVariable("startDate") String startDate,
                                                   @PathVariable("endDate") String endDate,
                                                   @PathVariable("userId") String userId) throws ParseException {

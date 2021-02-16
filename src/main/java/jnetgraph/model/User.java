@@ -1,8 +1,11 @@
 package jnetgraph.model;
+import org.springframework.stereotype.Component;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.util.List;
 
+@Component
 @Entity
 @Table(name = "user")
 public class User {
@@ -11,6 +14,9 @@ public class User {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "role")
+    private String role;
 
     @Column(name = "name")
     private String name;
@@ -39,10 +45,12 @@ public class User {
 
 
 
-    public User(String name, String surname, String email) {
+    public User(String name, String surname, String email, String password, String role) {
         this.name = name;
         this.surname = surname;
         this.email = email;
+        this.password = password;
+        this.role = role;
     }
 
     public void setId(Long id) {
@@ -58,6 +66,22 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public UserStatus getUserstatus() {
+        return userstatus;
+    }
+
+    public void setUserstatus(UserStatus userstatus) {
+        this.userstatus = userstatus;
     }
 
     public String getSurname() {

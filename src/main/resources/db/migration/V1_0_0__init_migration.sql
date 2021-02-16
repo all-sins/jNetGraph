@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS `user` (
 
     `id`                            INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `role`                          VARCHAR(15),
     `name`                          VARCHAR(MAX),
     `surname`                       VARCHAR(MAX),
     `userStatus`                    VARCHAR(20),
