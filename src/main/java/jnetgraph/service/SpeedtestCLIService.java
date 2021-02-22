@@ -6,7 +6,7 @@ import jnetgraph.mapper.SpeedtestCLIMapper;
 import jnetgraph.mapper.StringToDate;
 import jnetgraph.model.SpeedtestCLI;
 import jnetgraph.model.User;
-import jnetgraph.probe.SpeedtestCLIImpl;
+import jnetgraph.probe.SpeedtestCLIMeasurer;
 import jnetgraph.repository.SpeedtestCLIRepository;
 import org.apache.commons.lang3.builder.RecursiveToStringStyle;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
@@ -21,16 +21,16 @@ import java.util.List;
 @Component
 public class SpeedtestCLIService {
     private final SpeedtestCLIRepository speedtestCLIRepository;
-    private final SpeedtestCLIImpl speedtestCLIImpl;
+    private final SpeedtestCLIMeasurer speedtestCLIMeasurer;
     private final SpeedtestCLIMapper speedtestCLIMapper;
     private final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(SpeedtestCLIService.class);
     private final StringToDate stringToDate;
     private boolean check = false;
 
     @Autowired
-    public SpeedtestCLIService(SpeedtestCLIRepository speedtestCLIRepository, SpeedtestCLIImpl speedtestCLIImpl, SpeedtestCLIMapper speedtestCLIMapper, StringToDate stringToDate) {
+    public SpeedtestCLIService(SpeedtestCLIRepository speedtestCLIRepository, SpeedtestCLIMeasurer speedtestCLIMeasurer, SpeedtestCLIMapper speedtestCLIMapper, StringToDate stringToDate) {
         this.speedtestCLIRepository = speedtestCLIRepository;
-        this.speedtestCLIImpl = speedtestCLIImpl;
+        this.speedtestCLIMeasurer = speedtestCLIMeasurer;
         this.speedtestCLIMapper = speedtestCLIMapper;
         this.stringToDate = stringToDate;
     }
@@ -39,20 +39,6 @@ public class SpeedtestCLIService {
         this.check = check;
     }
 
-
-    //    public void createNewEntry(User user) throws IOException, InterruptedException {
-//        while (check.equals("get data")) {
-//            LOGGER.info("Running Ookla speedtest and collecting results");
-//            SpeedDataDTO speedDataDTO = speedtestCLIImpl.getData();
-//            SpeedtestCLI speedtestCLI = speedtestCLIMapper.dataToObject(speedDataDTO, speedtestCLIImpl);
-//            speedtestCLI.setUser(user);
-//            LOGGER.debug("Saving entry to database: " + ReflectionToStringBuilder.reflectionToString(speedtestCLI, RecursiveToStringStyle.SIMPLE_STYLE));
-//            speedtestCLIRepository.save(speedtestCLI);
-//            LOGGER.info("Waiting 1 hour to get next measurement");
-//            Thread.sleep(1000);
-//
-//        }
-//    }
 
 
     public void createNewEntry(User user) {
@@ -65,8 +51,8 @@ public class SpeedtestCLIService {
 
                     LOGGER.info("Running Ookla speedtest and collecting results");
                     SpeedDataDTO speedDataDTO = null;
-                    speedDataDTO = speedtestCLIImpl.getData();
-                    SpeedtestCLI speedtestCLI = speedtestCLIMapper.dataToObject(speedDataDTO, speedtestCLIImpl);
+                    speedDataDTO = speedtestCLIMeasurer.getData();
+                    SpeedtestCLI speedtestCLI = speedtestCLIMapper.dataToObject(speedDataDTO);
                     speedtestCLI.setUser(user);
                     System.out.println("Saving entry to database: " + ReflectionToStringBuilder.reflectionToString(speedtestCLI, RecursiveToStringStyle.SIMPLE_STYLE));
                     LOGGER.debug("Saving entry to database: " + ReflectionToStringBuilder.reflectionToString(speedtestCLI, RecursiveToStringStyle.SIMPLE_STYLE));
@@ -85,10 +71,12 @@ public class SpeedtestCLIService {
     }
 
     public List<SpeedtestCLI> getAll(){
+        LOGGER.info("Retrieving all SpeedTestCLI entries.");
         return speedtestCLIRepository.findAll();
     }
 
     public List<SpeedtestCLI> getAllForUser(Long id){
+        LOGGER.debug("Retrieving all SpeedTestCLI entries for user with ID: "  + id);
         return speedtestCLIRepository.getDataPerUser(id);
     }
 
@@ -96,14 +84,8 @@ public class SpeedtestCLIService {
     public List<SpeedtestCLI> getDataForPeriod(String startDate, String endDate, String userId) throws ParseException {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(stringToDate.convert(endDate));
-//        calendar.set(Calendar.HOUR_OF_DAY, 23);
-//        calendar.set(Calendar.MINUTE, 59);
-//        calendar.set(Calendar.SECOND, 59);
-//        calendar.set(Calendar.MILLISECOND, 999);
         calendar.add(Calendar.HOUR,24);
-        calendar.add(Calendar.MILLISECOND, -1);
-
-//        calendar.add(Calendar.DATE,1);
+        LOGGER.debug("Retrieving all SpeedTestCLI entries for user with ID: "  + userId + " from " + startDate + " till " + endDate);
         return speedtestCLIRepository.getDataForPeriod(stringToDate.convert(startDate), calendar.getTime(), Long.parseLong(userId));
     }
 

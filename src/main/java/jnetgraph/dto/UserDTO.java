@@ -1,15 +1,16 @@
 package jnetgraph.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jnetgraph.model.Role;
+
 import javax.validation.constraints.Email;
+import java.util.Collection;
+import java.util.Set;
 
 public class UserDTO {
 
     @JsonProperty("id")
     private Long id;
-
-    @JsonProperty("role")
-    private String role;
 
     @JsonProperty("name")
     private String name;
@@ -17,12 +18,15 @@ public class UserDTO {
     @JsonProperty("surname")
     private String surname;
 
-    @Email(message = "Invalid e-mail format")
+
     @JsonProperty("email")
     private String email;
 
     @JsonProperty("password")
     private String password;
+
+    @JsonProperty("roles")
+    private Set<Role> roles;
 
     public UserDTO() {
     }
@@ -35,21 +39,16 @@ public class UserDTO {
         this.password = password;
     }
 
-    public String getRole() {
-        return role;
-    }
 
-    public void setRole(String role) {
-        this.role = role;
-    }
 
-    public UserDTO(Long id, String name, String surname, String email, String password, String role) {
+    public UserDTO(Long id, String name, String surname, String email, String password) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.password = password;
-        this.role = role;
+
+
     }
 
     public Long getId() {
@@ -84,5 +83,11 @@ public class UserDTO {
         this.email = email;
     }
 
+    public Set<Role> getRoles() {
+        return roles;
+    }
 
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
 }

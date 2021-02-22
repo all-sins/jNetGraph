@@ -8,24 +8,29 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.Column;
+//UserForAuthentication service class. Implements UserDetailsService and has only one method - loadUserByUsername.
+//It finds user based on provided user name and maps it to UserForAuthentication.
 
 @Component
-public class JNetGraphUserDetailsService implements UserDetailsService {
+public class UserForAuthenticationService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
     @Autowired
-    public JNetGraphUserDetailsService(UserRepository userRepository) {
+    public UserForAuthenticationService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email).get(0);
+        User user = userRepository.getUserByEmail(email);
         if (user == null) {
             throw new UsernameNotFoundException(email);
         }
-        return new MyUserPrincipal(user);
+
+        return new UserForAuthentication(user);
+
     }
+
+
 }

@@ -21,18 +21,20 @@ public class UserMapper {
                 user.getName(),
                 user.getSurname(),
                 user.getEmail(),
-                user.getPassword(),
-                user.getRole());
+                user.getPassword()
+        );
     }
 
     public User fromDTO(UserDTO userDTO) {
 
         return new User(
+                userDTO.getId(),
                 userDTO.getName(),
                 userDTO.getSurname(),
                 userDTO.getEmail(),
-                passwordEncoder.encode(userDTO.getPassword()),
-                userDTO.getRole()
+                passwordEncoder.encode(userDTO.getPassword())
         );
+
     }
+
 }

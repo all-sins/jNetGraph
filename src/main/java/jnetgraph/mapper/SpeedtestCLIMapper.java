@@ -1,29 +1,29 @@
 package jnetgraph.mapper;
 import jnetgraph.dto.SpeedtestCLIDTO;
+import jnetgraph.dto.speedtestResultsDTO.PingDTO;
 import jnetgraph.model.SpeedtestCLI;
-import jnetgraph.probe.SpeedtestCLIImpl;
 import jnetgraph.dto.speedtestResultsDTO.SpeedDataDTO;
 import org.springframework.stereotype.Component;
-
-import java.text.SimpleDateFormat;
 
 @Component
 public class SpeedtestCLIMapper {
 
 
     //Maps SpeedtestCLI Object from data from speedtestResultsDTO package
-    public SpeedtestCLI dataToObject(SpeedDataDTO speedDataDTO, SpeedtestCLIImpl speedtestCLIImpl) {
+    public SpeedtestCLI dataToObject(SpeedDataDTO speedDataDTO) {
+        PingDTO ping = speedDataDTO.getPing();
+        float packetLoss = speedDataDTO.getPacketLoss();
+
         return new SpeedtestCLI(
-                speedDataDTO.getPing().getJitter(),
-                speedDataDTO.getPing().getLatency(),
-                speedtestCLIImpl.downloadSpeed(speedDataDTO.getDownload().getBytes(), speedDataDTO.getDownload().getElapsed()),
-                speedtestCLIImpl.uploadSpeed(speedDataDTO.getUpload().getBytes(), speedDataDTO.getUpload().getElapsed()),
-                speedDataDTO.getPacketLoss());
+                ping.getJitter(),
+                ping.getLatency(),
+                speedDataDTO.getDownloadSpeed(),
+                speedDataDTO.getUploadSpeed(),
+                packetLoss);
 
     }
 
     public SpeedtestCLIDTO toDTO(SpeedtestCLI speedtestCLI) {
-//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         return new SpeedtestCLIDTO(
               speedtestCLI.getStcliId(),
                 speedtestCLI.getExecTimestamp(),

@@ -1,49 +1,44 @@
 package jnetgraph.config.security;
 
-import jnetgraph.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
 
-@Configuration
+
 @EnableWebSecurity
-@Component
 @Profile("local")
 public class SecurityConfigLocal extends WebSecurityConfigurerAdapter {
-
-    private final UserRepository userRepository;
-    private final JNetGraphUserDetailsService userDetailsService;
     private final PasswordEncoder encoder;
 
-
     @Autowired
-    public SecurityConfigLocal(UserRepository userRepository, JNetGraphUserDetailsService userDetailsService, PasswordEncoder encoder) {
-        this.userRepository = userRepository;
-        this.userDetailsService = userDetailsService;
+    public SecurityConfigLocal(PasswordEncoder encoder) {
         this.encoder = encoder;
     }
 
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.inMemoryAuthentication()
+                .withUser("testuser@mail.com")
+                .password(encoder.encode("root"))
+                .authorities("ROLE_USER");
 
-    public DaoAuthenticationProvider authProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService);
-        authProvider.setPasswordEncoder(encoder);
-        return authProvider;
+        auth.inMemoryAuthentication()
+                .withUser("testadmin@mail.com")
+                .password(encoder.encode("root"))
+                .authorities("ROLE_ADMIN");
+
     }
+
 
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
-
 
         // Disabled build in protection against CORS.
         http.csrf().disable();
@@ -53,14 +48,8 @@ public class SecurityConfigLocal extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 //TODO:Making Swagger and H2 accessible without authentification. Remove for PROD
-                .antMatchers("/rest/api/User.svc/user", "/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**", "/h2-console/**")
+                .antMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**", "/h2-console/**")
                 .permitAll()
-
-                .anyRequest()
-                .authenticated().and()
-                .httpBasic();
+                .anyRequest().authenticated().and().httpBasic();
     }
-
 }
-
-

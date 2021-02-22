@@ -27,6 +27,7 @@ public class SpeedDataDTO {
     private float packetLoss;
 
 
+
     public PingDTO getPing() {
         return ping;
     }
@@ -58,4 +59,18 @@ public class SpeedDataDTO {
     public void setPacketLoss(float packetLoss) {
         this.packetLoss = packetLoss;
     }
+
+    public float getDownloadSpeed() {
+        int mb = (download.getBytes() / 1024) / 1024;
+        float s = download.getElapsed() / 1000;
+        return (mb / s) * 8;
+    }
+
+    public float getUploadSpeed() {
+        int mb = (upload.getBytes() / 1024) / 1024;
+        float s = upload.getElapsed() / 1000;
+        return (mb / s) * 8;
+    }
+
+
 }

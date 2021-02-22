@@ -1,12 +1,26 @@
 CREATE TABLE IF NOT EXISTS `user` (
 
     `id`                            INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `role`                          VARCHAR(15),
     `name`                          VARCHAR(MAX),
     `surname`                       VARCHAR(MAX),
     `userStatus`                    VARCHAR(20),
     `email`                         VARCHAR(100),
     `password`                      VARCHAR(100)
+
+
+)ENGINE=InnoDB  DEFAULT CHARSET =UTF8;
+
+CREATE TABLE IF NOT EXISTS `role` (
+
+    `id`                            INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `name`                          VARCHAR(MAX),
+
+)ENGINE=InnoDB  DEFAULT CHARSET =UTF8;
+
+CREATE TABLE IF NOT EXISTS `users_roles` (
+
+    `user_id`                            INT NOT NULL,
+    `role_id`                          VARCHAR(MAX),
 
 )ENGINE=InnoDB  DEFAULT CHARSET =UTF8;
 

@@ -3,7 +3,10 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Component
 @Entity
@@ -15,9 +18,6 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "role")
-    private String role;
-
     @Column(name = "name")
     private String name;
 
@@ -25,6 +25,7 @@ public class User {
     private String surname;
 
     @Column(name = "email")
+    @Email(message = "Invalid e-mail format")
     private String email;
 
     @Column(name = "password")
@@ -40,17 +41,51 @@ public class User {
     @OneToMany(mappedBy = "tsuimpl_id")
     private List<TsuImpl> tsuImplTest;
 
+
+    //TODO: I don't understand what fetch type means. It is advised not to use it, but without it I can't bypass lazy initialize fail error.
+    @ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+    @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+                                                    inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    private Set<Role> roles= new HashSet<>();
+
+
+
+    public List<TsuImpl> getTsuImplTest() {
+        return tsuImplTest;
+    }
+
+
+
+    public void setTsuImplTest(List<TsuImpl> tsuImplTest) {
+        this.tsuImplTest = tsuImplTest;
+    }
+
+
+
+
     public User() {
     }
 
 
 
-    public User(String name, String surname, String email, String password, String role) {
+    public User(String name, String surname, String email, String password) {
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.password = password;
-        this.role = role;
+
+
+
+    }
+    public User(Long id, String name, String surname, String email, String password) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.password = password;
+
+
+
     }
 
     public void setId(Long id) {
@@ -68,13 +103,6 @@ public class User {
         this.name = name;
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
 
     public UserStatus getUserstatus() {
         return userstatus;
@@ -124,6 +152,14 @@ public class User {
         this.speedtestCLIList = speedtestCLIList;
     }
 
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -131,7 +167,6 @@ public class User {
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
                 ", userstatus=" + userstatus +
                 '}';
     }

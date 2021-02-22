@@ -4,7 +4,6 @@ import jnetgraph.mapper.UserMapper;
 import jnetgraph.model.User;
 import jnetgraph.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
@@ -17,17 +16,14 @@ public class UserController {
 
 private final UserService userService;
 private final UserMapper userMapper;
-private final PasswordEncoder passwordEncoder;
-
 
     @Autowired
-    public UserController(UserService userService, UserMapper userMapper, PasswordEncoder passwordEncoder) {
+    public UserController(UserService userService, UserMapper userMapper) {
         this.userService = userService;
         this.userMapper = userMapper;
-        this.passwordEncoder = passwordEncoder;
     }
 
-//    @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
+    @RolesAllowed({"ADMIN","USER"})
     @PostMapping("/user")
     public UserDTO addNewUser(@Valid @RequestBody UserDTO userDTO) {
         User userToSave = userMapper.fromDTO(userDTO);
@@ -35,25 +31,33 @@ private final PasswordEncoder passwordEncoder;
         return userMapper.toDTO(savedUser);
     }
 
-//    @RolesAllowed("ROLE_ADMIN")
-    @DeleteMapping("/user({id})")
+    @RolesAllowed({"ADMIN"})
+    @DeleteMapping("/user/delete({id})")
     public void softDeleteUser(@PathVariable("id") Long id){
         userService.softDeleteUser(id);
     }
 
-//    @RolesAllowed(("ROLE_ADMIN"))
-    @PutMapping("/user({id})/changeemail/{email}")
-    public void changeEmail(@PathVariable("id") Long id,
-                            @PathVariable("email") String email){
-        userService.changeEmail(id, email);
+    @RolesAllowed({"ADMIN", "USER"})
+    @PutMapping("/user/changeEmail")
+    public UserDTO changeEmail(@Valid @RequestBody UserDTO userDTO){
+        User userToSave = userMapper.fromDTO(userDTO);
+        User savedUser = userService.changeEmail(userToSave);
+        return userMapper.toDTO(savedUser);
 
     }
 
-//    @RolesAllowed(("ROLE_USER"))
-    @PutMapping("/user({id})/changepassword/{password}")
-    public void changePassword(@PathVariable("id") Long id,
-                            @PathVariable("password") String password){
-        userService.changePassword(id, password);
+    @RolesAllowed({"USER"})
+    @PutMapping("/user/changePassword")
+    public UserDTO changePassword(@Valid @RequestBody UserDTO userDTO){
+        User userToSave = userMapper.fromDTO(userDTO);
+        User savedUser = userService.changePassword(userToSave);
+        return userMapper.toDTO(savedUser);
+
+    }
+    @RolesAllowed({"ADMIN"})
+    @PutMapping("/user({id})/addRole/({role})")
+    public void addRoleToUser(@PathVariable("id") Long id, @PathVariable("role") String role){
+        userService.addRoleToUser(id, role);
 
     }
 
