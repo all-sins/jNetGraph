@@ -18,4 +18,11 @@ public interface TsuImplRepository extends JpaRepository<TsuImpl, Long> {
     @Query("select s from TsuImpl s where s.user.id = :userId")
     List<TsuImpl> getDataWithUserID(@Param("userId") Long userId);
 
+    List<TsuImpl> findAllByTsuImplIdIn(List<Long> idList);
+
+    @Query("select s from TsuImpl s where s.tsuImplId = :id")
+    long countById(@Param("id") long tsuImplId);
+
+    long countByTsuImplIdIn(List<Long> idList);
+
 }

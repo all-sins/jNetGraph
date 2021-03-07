@@ -10,25 +10,26 @@ import java.util.Date;
 public class TsuImpl {
 
     @Id
-    @Column
+    @Column(name = "tsuimplid")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long tsuimpl_id;
+    private Long tsuImplId;
 
     @ManyToOne
     @JoinColumn(name = "user_fk")
     private User user;
 
-    // What does it do? Why does it work.
-    // Why does Spring Boot like to torture my poor soul
-    // with these god forsaken annotations???
+    // "@CreationTimestamp" Marks a property as the creation timestamp of the containing entity. The property value
+    // will be set to the current VM date exactly once when saving the owning entity for the first time. There are a
+    // variety of supported data types:
+    // https://docs.jboss.org/hibernate/orm/5.2/javadocs/org/hibernate/annotations/CreationTimestamp.html
     @CreationTimestamp
-    @Column(name = "exec_timestamp")
+    @Column
     private Date exec_timestamp;
 
-    @Column(name = "response_time")
+    @Column
     private Float response_time;
 
-    @Column(name = "download_speed")
+    @Column
     private Float download_speed;
 
     public TsuImpl() {
@@ -53,12 +54,12 @@ public class TsuImpl {
         this.download_speed = download_speed;
     }
 
-    public Long getTsuimpl_id() {
-        return tsuimpl_id;
+    public Long getTsuImplId() {
+        return tsuImplId;
     }
 
-    public void setTsuimpl_id(Long tsuimpl_id) {
-        this.tsuimpl_id = tsuimpl_id;
+    public void setTsuImplId(Long tsuImplId) {
+        this.tsuImplId = tsuImplId;
     }
 
     public Date getExec_timestamp() {

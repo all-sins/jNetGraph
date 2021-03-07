@@ -1,6 +1,6 @@
 package jnetgraph.service;
 
-import jnetgraph.dto.speedtestResultsDTO.SpeedDataDTO;
+import jnetgraph.dto.speedtestresults_dto.SpeedDataDTO;
 import jnetgraph.exception.SpeedtestCLIProcessingException;
 import jnetgraph.mapper.SpeedtestCLIMapper;
 import jnetgraph.mapper.StringToDate;
@@ -63,7 +63,7 @@ public class SpeedtestCLIService {
                 while (check) {
                     long start = System.currentTimeMillis();
 
-                    LOGGER.info("Running Ookla speedtest and collecting results");
+                    LOGGER.info("Running Ookla speedtest and collecting results.");
                     SpeedDataDTO speedDataDTO = null;
                     speedDataDTO = speedtestCLIImpl.getData();
                     SpeedtestCLI speedtestCLI = speedtestCLIMapper.dataToObject(speedDataDTO, speedtestCLIImpl);
@@ -74,7 +74,6 @@ public class SpeedtestCLIService {
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
                         throw new SpeedtestCLIProcessingException("302", "Thread processing error while creating new SpeedtestCLI entries!");
                     }
                     LOGGER.debug(String.valueOf(System.currentTimeMillis() - start));

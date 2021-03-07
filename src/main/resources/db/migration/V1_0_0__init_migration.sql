@@ -29,11 +29,11 @@ CREATE TABLE IF NOT EXISTS `speedtestcli` (
 
 CREATE TABLE IF NOT EXISTS `tsu_impl` (
 
-    `tsuimpl_id` 		            INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `tsuimplid` 		            INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `user_fk`                       INT,
     `exec_timestamp`                TIMESTAMP DEFAULT NOW(),
     `response_time`                 FLOAT(2),
-    `download_speed` 	            FLOAT(2), -- I think this actually limits the decimal precision to FLOAT(x) spaces.
+    `download_speed` 	            FLOAT(2),
     FOREIGN KEY(user_fk)            REFERENCES user(id)
 
 )ENGINE=InnoDB DEFAULT CHARSET=UTF8;

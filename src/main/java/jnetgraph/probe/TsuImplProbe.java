@@ -21,21 +21,25 @@ public class TsuImplProbe extends NetDataGatherer {
 
     @Override
     public void measureAll() {
+
+        // How many times to measure?
+        final int PRECISION = 30;
+        // How many milliseconds to wait before assuming time-out?
+        final int THRESHOLD = 10000;
+
         log.debug("[TsuImpl] Starting latency test...");
-        measureLatency(30, 10000);
+        measureLatency(PRECISION, THRESHOLD);
         log.debug("[TsuImpl] "+ avgMs +" ms");
 
         log.debug("[TsuImpl] Starting download test...");
         measureDownload();
         log.debug("[TsuImpl] "+ avgDl +" kb/s");
-        // measureUpload();
+
     }
 
     @Override
     public void measureLatency(int precision, int threshold) {
-        // byte precision = 10;
         long startTime;
-        // int threshold = 10000;
         long[] respTimes = new long[precision];
 
         // Measure response times from <hostname>, <precision> amount
@@ -48,14 +52,13 @@ public class TsuImplProbe extends NetDataGatherer {
                 if (success) {
                     respTimes[i] = System.currentTimeMillis() - startTime;
                 } else {
-                    respTimes[i] = 10000;
+                    respTimes[i] = threshold;
                 }
             }
         } catch (UnknownHostException e) {
-            throw new MeasuringException("101", "Could not resolve address used to test latency against.");
+            throw new MeasuringException("201", "Could not resolve address used to test latency against.");
         } catch (IOException e) {
-            e.printStackTrace();
-            throw new MeasuringException("100", "Latency measuring failed catastrophically!");
+            throw new MeasuringException("200", "Latency measuring failed catastrophically!");
         }
 
         // Calculate average from measured results.
@@ -89,15 +92,13 @@ public class TsuImplProbe extends NetDataGatherer {
                 in.readAllBytes();
                 dlTimes[i] = System.currentTimeMillis() - start;
             } catch (MalformedURLException e) {
-                throw new MeasuringException("201", "Failed to resolve given host! Invalid URL!");
+                throw new MeasuringException("301", "Failed to resolve given host! Invalid URL!");
             } catch (IOException e) {
-                e.printStackTrace();
-                throw new MeasuringException("200", "Failed to measure latency against given host!");
+                throw new MeasuringException("300", "Failed to measure latency against given host!");
             }
         }
 
         // Calculate average download speed.
-        float speedSum = 0;
         float[] speeds = new float[dlTimes.length];
 
         // Convert array of long millisecond download times
@@ -114,7 +115,7 @@ public class TsuImplProbe extends NetDataGatherer {
 
     private float[] calcAvgMinMax(float[] array) {
         float sum = 0;
-        float max = 0;
+        float max = Float.MIN_VALUE;
         float min = Float.MAX_VALUE;
         for (float arrayItem : array) {
             if (arrayItem > max) {max = arrayItem;}

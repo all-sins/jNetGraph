@@ -3,13 +3,11 @@ package jnetgraph.mapper;
 import jnetgraph.dto.SpeedtestCLIDTO;
 import jnetgraph.model.SpeedtestCLI;
 import jnetgraph.probe.SpeedtestCLIImpl;
-import jnetgraph.dto.speedtestResultsDTO.DownloadDTO;
-import jnetgraph.dto.speedtestResultsDTO.PingDTO;
-import jnetgraph.dto.speedtestResultsDTO.SpeedDataDTO;
-import jnetgraph.dto.speedtestResultsDTO.UploadDTO;
+import jnetgraph.dto.speedtestresults_dto.DownloadDTO;
+import jnetgraph.dto.speedtestresults_dto.PingDTO;
+import jnetgraph.dto.speedtestresults_dto.SpeedDataDTO;
+import jnetgraph.dto.speedtestresults_dto.UploadDTO;
 import org.junit.Test;
-
-import java.util.Date;
 
 import static org.junit.Assert.*;
 

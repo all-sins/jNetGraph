@@ -1,5 +1,6 @@
 package jnetgraph.service;
 
+import jnetgraph.exception.MeasuringException;
 import jnetgraph.model.TsuImpl;
 import jnetgraph.model.User;
 import jnetgraph.probe.NetDataGatherer;
@@ -87,7 +88,7 @@ public class TsuImplService {
                 try {
                     Thread.sleep(interval);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    throw new MeasuringException("100", "Failed to wait for "+ interval +"ms.");
                 }
             }
         }).start();

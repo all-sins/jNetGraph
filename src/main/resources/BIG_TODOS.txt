@@ -1,9 +1,13 @@
+// Mara is tackling this. Supposedly done.
 TODO: 1. Better authentication, that uses the password to send hashes.
 
 TODO: 2. Use HTTPS. Generate certificate and use it.
 
-TODO: 3. Don't e.printStackTrace(), because it's basically a System.out.print(). Throw custom exceptions in general. Check SpeedtestCLIProcessException.class.
+3. Don't e.printStackTrace(), because it's basically a System.out.print(). Throw custom exceptions in general. Check SpeedtestCLIProcessException.class.
 
-TODO: 4. Correctly use Logger and it's levels INFO - DEBUG in whole project.
+4. Correctly use Logger and it's levels INFO - DEBUG in whole project.
 
 TODO: 5. Test coverage for TsuImplController.
+
+
+TODO: FIXME: Bug -> set interval first then start measuring

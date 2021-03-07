@@ -1,8 +1,7 @@
 package jnetgraph.probe;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jnetgraph.dto.speedtestResultsDTO.SpeedDataDTO;
+import jnetgraph.dto.speedtestresults_dto.SpeedDataDTO;
 import jnetgraph.exception.SpeedtestCLIProcessingException;
 import org.apache.commons.lang3.builder.RecursiveToStringStyle;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
@@ -16,7 +15,6 @@ import java.io.InputStreamReader;
 
 @Component
 public class SpeedtestCLIImpl {
-
 
     @Value("${speedtest.path}")
     private String speedtestPath;

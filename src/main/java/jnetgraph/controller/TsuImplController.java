@@ -21,7 +21,6 @@ import javax.annotation.security.RolesAllowed;
 import java.text.ParseException;
 import java.util.*;
 
-
 @RestController
 @RequestMapping("/rest/api/TsuImplProbe.svc")
 public class TsuImplController {
@@ -93,6 +92,7 @@ public class TsuImplController {
         return convertedResults;
     }
 
+    // TODO: Implement working with dates as Longs.
     // Experimental.
     @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
     @PostMapping("/measuring/user/fromTo")
@@ -103,7 +103,7 @@ public class TsuImplController {
     }
 
     @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
-    @PostMapping("/measuring/config/interval/reset)")
+    @PostMapping("/measuring/config/interval/reset")
     MeasuringInfoDTO resetMeasuringInterval() {
         log.debug("[TsuImpl] Sleep interval changed " +
                 "from "+ tsuImplService.getInterval() + " ms (" + tsuImplService.getInterval() / 1000 + " sec) " +

@@ -1,11 +1,8 @@
 package jnetgraph.probe;
 
-import jnetgraph.dto.speedtestResultsDTO.SpeedDataDTO;
+import jnetgraph.dto.speedtestresults_dto.SpeedDataDTO;
 import jnetgraph.exception.SpeedtestCLIProcessingException;
-import jnetgraph.exception.UserAdministrationException;
 import org.junit.Test;
-
-import java.io.IOException;
 
 import static org.junit.Assert.*;
 

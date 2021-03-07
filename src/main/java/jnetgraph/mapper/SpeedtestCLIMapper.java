@@ -2,10 +2,8 @@ package jnetgraph.mapper;
 import jnetgraph.dto.SpeedtestCLIDTO;
 import jnetgraph.model.SpeedtestCLI;
 import jnetgraph.probe.SpeedtestCLIImpl;
-import jnetgraph.dto.speedtestResultsDTO.SpeedDataDTO;
+import jnetgraph.dto.speedtestresults_dto.SpeedDataDTO;
 import org.springframework.stereotype.Component;
-
-import java.text.SimpleDateFormat;
 
 @Component
 public class SpeedtestCLIMapper {

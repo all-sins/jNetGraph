@@ -1,4 +1,4 @@
-package jnetgraph.dto.speedtestResultsDTO;
+package jnetgraph.dto.speedtestresults_dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class PingDTO {

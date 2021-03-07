@@ -8,15 +8,23 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 
-// No clue what these tags mean honestly. Besides the one use-case
-// where @RestController means that it's the controller responsible
-// for different HTTP requests to the application.
+/**
+* This class is responsible for executing code when and if a
+* specific exception or exceptions occur. Think of it like
+* a listener for errors.
+*/
+
+// Allows you to handle exceptions across the whole application, not just to an individual controller
 @ControllerAdvice
+
+// @RestController is a convenience annotation for creating Restful controllers. It is a specialization of @Component
+// and is autodetected through classpath scanning. It adds the @Controller and @ResponseBody annotations. It converts
+// the response to JSON or XML.
 @RestController
 
-// This class is responsible for executing code when and if a
-// specific exception ŗor exceptions occur. Think of it like
-// a listener for errors.
+// TODO: So is the @RestController annotation used to serialize an object and return it as a JSON when and if a specific
+// exception occurs?
+
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = {MeasuringException.class})

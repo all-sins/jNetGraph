@@ -29,13 +29,14 @@ CREATE TABLE IF NOT EXISTS `speedtest_cli` (
 
 )ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
-CREATE TABLE IF NOT EXISTS `tsu_icmp` (
+CREATE TABLE IF NOT EXISTS `tsu_impl` (
 
-    `id` 				int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `exec_timestamp`    TIMESTAMP DEFAULT NOW(), -- Leaving this in case of manual testing. Remove if it becomes an issue.
-    `response_time`     FLOAT(10),
-    `download_speed` 	FLOAT(10),
-    `upload_speed` 		FLOAT(10)
+    `tsuImplId` 		            INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `user_fk`                       INT,
+    `exec_timestamp`                TIMESTAMP DEFAULT NOW(),
+    `response_time`                 FLOAT(2),
+    `download_speed` 	            FLOAT(2),
+    FOREIGN KEY(user_fk)            REFERENCES user(id)
 
 )ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 

@@ -1,0 +1,33 @@
+1. GlobalExceptionHandler - //instead of line comments use java DOC if it is comments to class
+/**
+ .....
+ **/
+@ControllerAdvice - allows you to handle exceptions across the whole application, not just to an individual controller
+
+TODO: 2. SpeedtestCLIMapper
+speedDataDTO.getPing().getJitter(),
+ speedDataDTO.getPing().getLatency(),
+/!\ GENERAL - extract same parts to variable like
+ Ping ping = speedDataDTO.getPing();
+ ping.getJitter (),
+ ping.getLatency()
+
+TODO: 3. don`t understand package speedtestResultsDTO
+ 1. we use only small latters for package
+ 2. Why not put all *.DTOS inside dto package ?
+
+TODO: 4. @Component
+ public class SpeedtestCLIImpl
+Class contains *Impl that means class Implements some interface ? I dont see interface called SpeedtestCLI.
+ public float downloadSpeed(int bytes, int elapsed){
+ public float uploadSpeed(int bytes, int elapsed){
+ - make methods private. They are used only internally
+
+5. TsuImplProbe
+what is 10 ? what is 10000 ?? Extract to constants (final) and name like PRECISION
+
+TODO: 6. @Component
+public class SpeedtestCLIMapper {
+ public SpeedtestCLI dataToObject(SpeedDataDTO speedDataDTO, SpeedtestCLIImpl speedtestCLIImpl) {
+That I don`t like. SpeedtestCLIMapper takes impl of other class, but mapper should be as simple as possible, so you can
+calculate values and give them as param to dataToObject, not whole class for usage

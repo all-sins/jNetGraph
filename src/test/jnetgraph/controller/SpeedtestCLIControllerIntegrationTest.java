@@ -2,11 +2,9 @@ package jnetgraph.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jnetgraph.dto.SpeedtestCLIDTO;
-import jnetgraph.mapper.SpeedtestCLIMapper;
 import jnetgraph.repository.SpeedtestCLIRepository;
 import jnetgraph.repository.UserRepository;
 import jnetgraph.service.SpeedtestCLIService;
-import jnetgraph.service.UserService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
